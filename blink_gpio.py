@@ -37,9 +37,9 @@ def blink_led_test():
 	while True:
 		for pin in pins:
 			GPIO.output(pin, GPIO.HIGH)
-			time.sleep(1)
+			time.sleep(0.5)
 			GPIO.output(pin, GPIO.LOW)
-			time.sleep(1)
+			time.sleep(0.5)
 
 # channel handle function
 def handleChannelOpen(channel):
