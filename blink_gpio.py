@@ -18,6 +18,7 @@ PUMP_CLOSE = 0 			# stop the pump
 
 # initialize the GPIO for pump control
 GPIO.setmode(GPIO.BCM)
+GPIO.cleanup
 
 def gpio_init():
 	GPIO.setup(CHANNEL_1, GPIO.OUT)
