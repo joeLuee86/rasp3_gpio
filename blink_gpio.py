@@ -25,15 +25,17 @@ def gpio_init():
 
 def blink_led_test():
 	pins = [26, 19, 13]
-	GPIO.setup(pins[0], GPIO.OUT)
-	GPIO.setup(pins[1], GPIO.OUT)
-	GPIO.setup(pins[2], GPIO.OUT)
 
 	for pin in pins:
-		GPIO.output(pins[pin], GPIO.HIGH)
-		time.sleep(1)
-		GPIO.output(pins[pin], GPIO.LOW)
-		time.sleep(1)
+		GPIO.setup(pin, GPIO.OUT)
+		GPIO.output(pin, GPIO.LOW)
+
+	while True:
+		for pin in pins:
+			GPIO.output(pins[pin], GPIO.HIGH)
+			time.sleep(1)
+			GPIO.output(pins[pin], GPIO.LOW)
+			time.sleep(1)
 
 # channel handle function
 def handleChannelOpen(channel):
@@ -57,7 +59,10 @@ def exitProgram():
 
 # start pump procedure
 if __name__ == "__main__":
-	blink_led_test()
+	try:
+		blink_led_test()
+	except KeyboardInterrupt:
+		GPIO.cleanup
 	# force stop the pump after 10 seconds
 	# timer = threading.Timer(10, forceClosePump)
 	# timer.start
