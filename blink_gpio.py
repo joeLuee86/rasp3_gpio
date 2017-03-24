@@ -28,14 +28,17 @@ def blink_led_test():
 	pins = [26, 19, 13]
 
 	for pin in pins:
+		GPIO.setup(pin, GPIO.IN)
+
+	for pin in pins:
 		GPIO.setup(pin, GPIO.OUT)
 		GPIO.output(pin, GPIO.LOW)
 
 	while True:
 		for pin in pins:
-			GPIO.output(pins[pin], GPIO.HIGH)
+			GPIO.output(pin, GPIO.HIGH)
 			time.sleep(1)
-			GPIO.output(pins[pin], GPIO.LOW)
+			GPIO.output(pin, GPIO.LOW)
 			time.sleep(1)
 
 # channel handle function
