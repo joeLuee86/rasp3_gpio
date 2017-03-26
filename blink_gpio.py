@@ -11,7 +11,7 @@ import RPi.GPIO as GPIO
 
 CHANNEL_1 = 26 			# Set GPIO_26 as channel_1 pump
 
-HUMIDITY_SENSOR = 21 	# Set GPIO_21 as humidity sensor
+HUMIDITY_SENSOR = 14 	# Set GPIO_21 as humidity sensor
 
 PUMP_OPEN = 1 			# start the pump
 PUMP_CLOSE = 0 			# stop the pump
@@ -22,6 +22,10 @@ GPIO.cleanup
 
 def gpio_init():
 	GPIO.setup(CHANNEL_1, GPIO.OUT)
+	GPIO.setup(HUMIDITY_SENSOR, GPIO.IN)
+
+def gpio_deinit():
+	GPIO.setup(CHANNEL_1, GPIO.IN)
 	GPIO.setup(HUMIDITY_SENSOR, GPIO.IN)
 
 def blink_led_test():
@@ -54,31 +58,32 @@ def readHumiditySensor():
 
 def forceClosePump():
 	handleChannelClose(CHANNEL_1)
-	sys.exit(1)
 
 def exitProgram():
 	# release the GPIO
+	forceClosePump()
+	gpio_deinit()
 	GPIO.cleanup
 	sys.exit(0)
 
+def washing(seconds = 10):
+	print "I am washing " + seconds + " seconds" 
+	handleChannelOpen(CHANNEL_1)
+	time.sleep(seconds)
+	handleChannelClose(CHANNEL_1)
+
 # start pump procedure
 if __name__ == "__main__":
-	try:
-		blink_led_test()
-	except KeyboardInterrupt:
-		GPIO.cleanup
-	# force stop the pump after 10 seconds
-	# timer = threading.Timer(10, forceClosePump)
-	# timer.start
+	# try:
+	# 	blink_led_test()
+	# except KeyboardInterrupt:
+	# 	exitProgram()
 
-	# if (readHumiditySensor() == 1):
-	# 	exitProgram()   	# we don't to washer the flower, it's still humid
-	# else:
-	# 	while (readHumiditySensor() == 0):
-	# 		handleChannelOpen(CHANNEL_1)
-	# 		time.sleep(5)
-
-	# 	handleChannelClose(CHANNEL_1)
-
+	while True:
+		if (readHumiditySensor() == 0):
+			continue
+		else:
+			timer.start
+			time.sleep(5)
 # release the GPIO
 GPIO.cleanup
