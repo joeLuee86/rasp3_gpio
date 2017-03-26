@@ -16,6 +16,8 @@ HUMIDITY_SENSOR = 14 	# Set GPIO_21 as humidity sensor
 PUMP_OPEN = 1 			# start the pump
 PUMP_CLOSE = 0 			# stop the pump
 
+PERIOD = 12 * 60 * 60	# washing period
+
 # initialize the GPIO for pump control
 GPIO.setmode(GPIO.BCM)
 GPIO.cleanup
@@ -85,8 +87,8 @@ if __name__ == "__main__":
 		if (readHumiditySensor() == 0):
 			continue
 		else:
-			timer = Timer(5, washing(5))
+			timer = Timer(PERIOD, washing(5))
 			timer.start
-			time.sleep(5)
+			time.sleep(PERIOD)
 # release the GPIO
 GPIO.cleanup
