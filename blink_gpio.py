@@ -7,6 +7,7 @@ print "hello, world!"
 import sys
 import threading
 import time
+import timer
 import RPi.GPIO as GPIO 
 
 CHANNEL_1 = 26 			# Set GPIO_26 as channel_1 pump
@@ -78,6 +79,10 @@ if __name__ == "__main__":
 	# 	blink_led_test()
 	# except KeyboardInterrupt:
 	# 	exitProgram()
+
+	gpio_init()
+
+	timer.threading(5, washing(5))
 
 	while True:
 		if (readHumiditySensor() == 0):
