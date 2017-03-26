@@ -5,9 +5,8 @@ print "hello, world!"
 
 # import the necessary modules
 import sys
-import threading
+from threading import Timer
 import time
-import timer
 import RPi.GPIO as GPIO 
 
 CHANNEL_1 = 26 			# Set GPIO_26 as channel_1 pump
@@ -68,7 +67,7 @@ def exitProgram():
 	sys.exit(0)
 
 def washing(seconds = 10):
-	print "I am washing " + seconds + " seconds" 
+	print "I am washing %d seconds"%seconds 
 	handleChannelOpen(CHANNEL_1)
 	time.sleep(seconds)
 	handleChannelClose(CHANNEL_1)
@@ -82,12 +81,11 @@ if __name__ == "__main__":
 
 	gpio_init()
 
-	timer.threading(5, washing(5))
-
 	while True:
 		if (readHumiditySensor() == 0):
 			continue
 		else:
+			timer = Timer(5, washing(5))
 			timer.start
 			time.sleep(5)
 # release the GPIO
