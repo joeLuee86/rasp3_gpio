@@ -83,6 +83,16 @@ if __name__ == "__main__":
 
 	gpio_init()
 
+	if sys.argc < 2:
+		# without any valuable info of params
+		sys.exit(1)
+	else:
+		if sys.argv[1] == "channel_1":
+			handleChannelOpen(CHANNEL_1)
+
+	exitProgram()
+	
+	# test loop
 	while True:
 		if (readHumiditySensor() == 0):
 			continue

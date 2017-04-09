@@ -12,10 +12,13 @@ stdout, stderr, status = Open3.capture3(cmd)
 
 obj = JSON.parse(stdout)
 
-puts obj
-
-obj.each do |key, val| 
+obj[0].each do |key, val| 
 	puts key
 	puts val
+	if key == "start_stop"
+		if val == "start"
+			# check the timestamp of this schedule
+		end
+	end
 end
 
