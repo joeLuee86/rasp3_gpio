@@ -12,6 +12,7 @@ TIME_STAMP = "08:00:00"
 puts Time.parse(TIME_STAMP)
 
 time_out = false
+cur_channel = "null"
 
 while true do 
 	# query server for commands periodically
@@ -20,6 +21,10 @@ while true do
 	puts obj
 
 	obj[0].each do |key, val| 
+
+		if key == "channel"
+			cur_channel = val 
+		end
 
 		if key == "start_at"
 			dest_time = Time.parse(TIME_STAMP)
@@ -30,12 +35,16 @@ while true do
 				puts "it's time to wash now"
 			end
 		end
-		
+
 		if key == "start_stop"
-			if val == "start"
+			# if val == "start"
+			if true
 				if time_out
 					# now start washing
 					puts "now, start washing"
+					wash_cmd = "blink_gpio.py " +  cur_channel + " start"
+					puts wash_cmd
+					system(wash_cmd)
 				end				
 			end
 		end
