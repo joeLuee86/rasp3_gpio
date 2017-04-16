@@ -12,6 +12,7 @@ import RPi.GPIO as GPIO
 CHANNEL_1 = 26 			# Set GPIO_26 as channel_1 pump
 
 HUMIDITY_SENSOR = 14 	# Set GPIO_21 as humidity sensor
+IS_HUMID = 1 			# Set the humid flag for humidity sensor
 
 PUMP_OPEN = 1 			# start the pump
 PUMP_CLOSE = 0 			# stop the pump
@@ -58,6 +59,9 @@ def handleChannelClose(channel):
 def readHumiditySensor():
 	return GPIO.input(HUMIDITY_SENSOR)
 
+def is_dry():
+	return readHumiditySensor != IS_HUMID
+
 def forceClosePump():
 	handleChannelClose(CHANNEL_1)
 
@@ -68,27 +72,29 @@ def exitProgram():
 	GPIO.cleanup
 	sys.exit(0)
 
-def washing(seconds = 10):
+def washing(channel = CHANNEL_1, seconds = 10):
 	print "I am washing %d seconds"%seconds 
-	handleChannelOpen(CHANNEL_1)
-	time.sleep(seconds)
-	handleChannelClose(CHANNEL_1)
+	# we just start the pump only humidity sensor is dry
+	if is_dry()
+		handleChannelOpen(channel)
+		time.sleep(seconds)
+		handleChannelClose(channel)
+
 
 # start pump procedure
 if __name__ == "__main__":
-	# try:
-	# 	blink_led_test()
-	# except KeyboardInterrupt:
-	# 	exitProgram()
 
 	gpio_init()
 
-	if sys.argc < 2:
+	if sys.argc < 3:
 		# without any valuable info of params
 		sys.exit(1)
 	else:
 		if sys.argv[1] == "channel_1":
-			handleChannelOpen(CHANNEL_1)
+			if sys.argv[2] == "start":
+				washing(CHANNEL_1, 5)
+			else
+				handleChannelClose(CHANNEL_1)
 
 	exitProgram()
 	
