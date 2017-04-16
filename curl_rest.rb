@@ -8,8 +8,6 @@ require 'time'
 require 'open3'
 
 REST_CMD ='curl -l -H "Content-Type: application/json" -X GET "https://smart-home-joe.herokuapp.com/washers.json"'
-TIME_STAMP = "08:00:00"
-puts Time.parse(TIME_STAMP)
 
 time_out = false
 cur_channel = "null"
@@ -27,9 +25,9 @@ while true do
 		end
 
 		if key == "start_at"
-			dest_time = Time.parse(TIME_STAMP)
 			set_time = Time.parse(val)
-			if dest_time < set_time
+			puts Time.now < set_time
+			if Time.now < set_time
 				# it's time to wash now
 				time_out = true
 				puts "it's time to wash now"
@@ -37,8 +35,7 @@ while true do
 		end
 
 		if key == "start_stop"
-			# if val == "start"
-			if true
+			if val == "start"
 				if time_out
 					# now start washing
 					puts "now, start washing"
