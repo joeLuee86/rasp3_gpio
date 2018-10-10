@@ -144,7 +144,7 @@ class MyGpio:
 	def gpio_led_balancer_random(self):
 
 		while True:
-			leds = int(random.random() * len(self.BCM_PINS))
+			leds = int(random.random() * len(self.BCM_PINS)) + 1
 			self.gpio_led_lights_on(leds, 0.03)
 
 
