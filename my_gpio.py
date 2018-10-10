@@ -59,12 +59,12 @@ class MyGpio:
 
 	# initialize all pins as output direction
 	def gpio_init_all_output(self):
-		for pin in MyGpio.BCM_PINS:
+		for pin in self.BCM_PINS:
 			GPIO.setup(pin, GPIO.OUT)
 
 	# initialize all pins as input direction
 	def gpio_init_all_input(self):
-		for pin in MyGpio.BCM_PINS:
+		for pin in self.BCM_PINS:
 			GPIO.setup(pin, GPIO.IN)
 
 	# initialize one pin as output direction
@@ -77,12 +77,12 @@ class MyGpio:
 
 	# clear all pins
 	def gpio_all_clear(self):
-		for pin in MyGpio.BCM_PINS:
+		for pin in self.BCM_PINS:
 			GPIO.output(pin, GPIO.LOW) 
 
 	# set all pins
 	def gpio_all_set(self):
-		for pin in MyGpio.BCM_PINS:
+		for pin in self.BCM_PINS:
 			GPIO.output(pin, GPIO.HIGH)
 
 	# set one pin
@@ -109,18 +109,18 @@ class MyGpio:
 	# It will just toggle all LED one by one, and reverse once
 	def gpio_led_toggle_show_once(self, tick = 1):
 		# init all pins as ouput for LED toggle show
-		MyGpio.gpio_init_all_output()
+		self.gpio_init_all_output()
 
 		# clear all LED before show
-		MyGpio.gpio_all_clear()
+		self.gpio_all_clear()
 
-		for pin in MyGpio.BCM_PINS:
+		for pin in self.BCM_PINS:
 			GPIO.output(pin, GPIO.HIGH)
 			time.sleep(tick)
 			GPIO.output(pin, GPIO.LOW)
 			time.sleep(tick)
 
-		BCM_REVERSE_PINS = copy.copy(MyGpio.BCM_PINS)
+		BCM_REVERSE_PINS = copy.copy(self.BCM_PINS)
 		BCM_REVERSE_PINS.reverse()
 		for pin in BCM_REVERSE_PINS:
 			GPIO.output(pin, GPIO.HIGH)
@@ -129,19 +129,19 @@ class MyGpio:
 			time.sleep(tick)	
 
 		# clear all LED before quit
-		MyGpio.gpio_all_clear()
+		self.gpio_all_clear()
 
 	# LED toggle dragon
 	def gpio_led_toggle_dragon(self):
 		while True:
-			MyGpio.gpio_led_toggle_show_once(0.5)
+			self.gpio_led_toggle_show_once(0.5)
 
 	# LED balancer
 	def gpio_led_balancer_random(self):
 
 		while True:
-			leds = int(random.random() * len(MyGpio.BCM_PINS))
-			MyGpio.gpio_led_lights_on(leds, 0.3)
+			leds = int(random.random() * len(self.BCM_PINS))
+			self.gpio_led_lights_on(leds, 0.3)
 
 
 
