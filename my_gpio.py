@@ -145,7 +145,7 @@ class MyGpio:
 
 		while True:
 			leds = int(random.random() * len(self.BCM_PINS))
-			self.gpio_led_lights_on(leds, 0.3)
+			self.gpio_led_lights_on(leds, 0.1)
 
 
 
