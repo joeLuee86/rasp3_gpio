@@ -145,7 +145,7 @@ class MyGpio:
 
 		while True:
 			leds = int(random.random() * len(self.BCM_PINS))
-			self.gpio_led_lights_on(leds, 0.1)
+			self.gpio_led_lights_on(leds, 0.03)
 
 
 
@@ -157,12 +157,12 @@ if __name__ == "__main__":
 
 	mygpio.gpio_init_all_output()
 
-	mygpio.gpio_led_toggle_show_once(0.2)
+	mygpio.gpio_led_toggle_show_once(0.1)
 
 	time.sleep(2)
 
 	for i in range(1, 10):
-		mygpio.gpio_led_toggle_show_once(0.1)
+		mygpio.gpio_led_toggle_show_once(0.05)
 
 	time.sleep(2)
 	
