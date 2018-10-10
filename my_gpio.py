@@ -58,44 +58,44 @@ class MyGpio:
 	ONE_MONTH_TICK = 30 * ONE_DAY_TICK
 
 	# initialize all pins as output direction
-	def gpio_init_all_output():
+	def gpio_init_all_output(slef):
 		for pin in BCM_PINS:
 			GPIO.setup(pin, GPIO.OUT)
 
 	# initialize all pins as input direction
-	def gpio_init_all_input():
+	def gpio_init_all_input(slef):
 		for pin in BCM_PINS:
 			GPIO.setup(pin, GPIO.IN)
 
 	# initialize one pin as output direction
-	def gpio_init_output(pin_number):
+	def gpio_init_output(slef, pin_number):
 		GPIO.setup(pin_number, GPIO.OUT)
 
 	# initialize one pin as output direction
-	def gpio_init_input(pin_number):
+	def gpio_init_input(self, pin_number):
 		GPIO.setup(pin_number, GPIO.IN)	
 
 	# clear all pins
-	def gpio_all_clear():
+	def gpio_all_clear(self):
 		for pin in BCM_PINS:
 			GPIO.output(pin, GPIO.LOW) 
 
 	# set all pins
-	def gpio_all_set():
+	def gpio_all_set(self):
 		for pin in BCM_PINS:
 			GPIO.output(pin, GPIO.HIGH)
 
 	# set one pin
-	def gpio_set(pin):
+	def gpio_set(self, pin):
 		GPIO.output(pin, GPIO.HIGH)
 
 	# clear one pin
-	def gpio_clear(pin):
+	def gpio_clear(self, pin):
 		GPIO.output(pin, GPIO.LOW)
 
 	####################################################
 	#  LED related function
-	def gpio_led_lights_on(number, tick):
+	def gpio_led_lights_on(self, number, tick):
 		for pin in range(0, number):
 			GPIO.output(pin, GPIO.HIGH)
 			time.sleep(tick)
@@ -107,7 +107,7 @@ class MyGpio:
 	
 	# LED Toggle show, GPIO high for light on, low for light off
 	# It will just toggle all LED one by one, and reverse once
-	def gpio_led_toggle_show_once(tick = 1):
+	def gpio_led_toggle_show_once(self, tick = 1):
 		# init all pins as ouput for LED toggle show
 		gpio_init_all_output()
 
@@ -132,18 +132,16 @@ class MyGpio:
 		gpio_all_clear()
 
 	# LED toggle dragon
-	def gpio_led_toggle_dragon():
+	def gpio_led_toggle_dragon(self):
 		while True:
 			gpio_led_toggle_show_once(0.5)
 
 	# LED balancer
-	def gpio_led_balancer_random():
+	def gpio_led_balancer_random(self):
 
 		while True:
 			leds = int(random.random() * len(BCM_PINS))
 			gpio_led_lights_on(leds, 0.3)
-
-PERIOD = 12 * 60 * 60	# washing period
 
 
 
