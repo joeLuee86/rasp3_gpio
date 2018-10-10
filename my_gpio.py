@@ -159,7 +159,7 @@ if __name__ == "__main__":
 
 	time.sleep(2)
 
-	for i in range(1, 10)
+	for i in range(1, 10):
 		mygpio.gpio_led_toggle_show_once(0.3)
 
 	time.sleep(2)
