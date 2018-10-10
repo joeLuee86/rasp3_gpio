@@ -109,10 +109,10 @@ class MyGpio:
 	# It will just toggle all LED one by one, and reverse once
 	def gpio_led_toggle_show_once(self, tick = 1):
 		# init all pins as ouput for LED toggle show
-		gpio_init_all_output()
+		MyGpio.gpio_init_all_output()
 
 		# clear all LED before show
-		gpio_all_clear()
+		MyGpio.gpio_all_clear()
 
 		for pin in MyGpio.BCM_PINS:
 			GPIO.output(pin, GPIO.HIGH)
@@ -129,19 +129,19 @@ class MyGpio:
 			time.sleep(tick)	
 
 		# clear all LED before quit
-		gpio_all_clear()
+		MyGpio.gpio_all_clear()
 
 	# LED toggle dragon
 	def gpio_led_toggle_dragon(self):
 		while True:
-			gpio_led_toggle_show_once(0.5)
+			MyGpio.gpio_led_toggle_show_once(0.5)
 
 	# LED balancer
 	def gpio_led_balancer_random(self):
 
 		while True:
 			leds = int(random.random() * len(MyGpio.BCM_PINS))
-			gpio_led_lights_on(leds, 0.3)
+			MyGpio.gpio_led_lights_on(leds, 0.3)
 
 
 
