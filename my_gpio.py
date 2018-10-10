@@ -97,6 +97,7 @@ class MyGpio:
 	#  LED related function
 	def gpio_led_lights_on(self, number, tick):
 		for pin in range(0, number):
+			print pin
 			GPIO.output(pin, GPIO.HIGH)
 			time.sleep(tick)
 			GPIO.output(pin, GPIO.LOW)
@@ -115,6 +116,7 @@ class MyGpio:
 		self.gpio_all_clear()
 
 		for pin in self.BCM_PINS:
+			print pin
 			GPIO.output(pin, GPIO.HIGH)
 			time.sleep(tick)
 			GPIO.output(pin, GPIO.LOW)
@@ -123,6 +125,7 @@ class MyGpio:
 		BCM_REVERSE_PINS = copy.copy(self.BCM_PINS)
 		BCM_REVERSE_PINS.reverse()
 		for pin in BCM_REVERSE_PINS:
+			print pin
 			GPIO.output(pin, GPIO.HIGH)
 			time.sleep(tick)
 			GPIO.output(pin, GPIO.LOW)
