@@ -148,6 +148,28 @@ class MyGpio:
 			self.gpio_led_lights_on(leds, 0.007)
 			time.sleep(0.2)
 
+	# LED boxer
+	def gpio_led_boxer(self):
+		BCM_REVERSE_PINS = copy.copy(self.BCM_PINS)
+		BCM_REVERSE_PINS.reverse()
+		while True:
+			for primary, secondary in self.BCM_PINS, BCM_REVERSE_PINS:
+				GPIO.output(primary, GPIO.HIGH)
+				GPIO.output(secondary, GPIO.HIGH)
+				time.sleep(0.01)
+				GPIO.output(primary, GPIO.LOW)
+				GPIO.output(secondary, GPIO.LOW)
+				time.sleep(0.01)
+
+			for primary, secondary in BCM_REVERSE_PINS, self.BCM_PINS:
+				GPIO.output(primary, GPIO.HIGH)
+				GPIO.output(secondary, GPIO.HIGH)
+				time.sleep(0.01)
+				GPIO.output(primary, GPIO.LOW)
+				GPIO.output(secondary, GPIO.LOW)
+				time.sleep(0.01)			
+
+
 
 
 # start LED test
@@ -167,7 +189,7 @@ if __name__ == "__main__":
 
 	time.sleep(2)
 	
-	mygpio.gpio_led_balancer_random()
+	mygpio.gpio_led_boxer()
 
 
 
