@@ -185,7 +185,7 @@ if __name__ == "__main__":
 
 	while True:
 
-		for i in range(1, 20):
+		for i in range(1, 8):
 			mygpio.gpio_led_toggle_show_once(0.05)
 
 		time.sleep(2)
