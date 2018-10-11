@@ -138,18 +138,18 @@ class MyGpio:
 	# LED toggle dragon
 	def gpio_led_toggle_dragon(self):
 		while True:
-			self.gpio_led_toggle_show_once(0.5)
+			self.gpio_led_toggle_show_once(0.1)
 
 	# LED balancer
-	def gpio_led_balancer_random(self):
+	def gpio_led_balancer_random(self, times):
 
-		while True:
+		for i in range(1, times):
 			leds = int(random.random() * len(self.BCM_PINS)) + 1
 			self.gpio_led_lights_on(leds, 0.007)
 			time.sleep(0.2)
 
 	# LED boxer
-	def gpio_led_boxer(self):
+	def gpio_led_boxer(self, times):
 		ORG_PINS = self.BCM_PINS
 		BCM_REVERSE_PINS = copy.copy(ORG_PINS)
 		BCM_REVERSE_PINS.reverse()
@@ -157,7 +157,7 @@ class MyGpio:
 		COMB_PINS_INCREASE = ORG_PINS + BCM_REVERSE_PINS
 		COMB_PINS_DECREASE = BCM_REVERSE_PINS + ORG_PINS
 
-		while True:
+		for i in range(1, times):
 			for pin in range(0, len(ORG_PINS)):
 				GPIO.output(COMB_PINS_INCREASE[pin], GPIO.HIGH)
 				GPIO.output(COMB_PINS_DECREASE[pin], GPIO.HIGH)
@@ -179,16 +179,24 @@ if __name__ == "__main__":
 
 	mygpio.gpio_init_all_output()
 
-	mygpio.gpio_led_toggle_show_once(0.1)
+	mygpio.gpio_led_toggle_show_once(0.5)
 
 	time.sleep(2)
 
-	for i in range(1, 10):
-		mygpio.gpio_led_toggle_show_once(0.03)
+	while True:
 
-	time.sleep(2)
-	
-	mygpio.gpio_led_boxer()
+		for i in range(1, 20):
+			mygpio.gpio_led_toggle_show_once(0.01)
+
+		time.sleep(2)
+		
+		mygpio.gpio_led_balancer_random(20)
+
+		time.sleep(2)
+		
+		mygpio.gpio_led_boxer(20)
+
+		time.sleep(2)
 
 
 
