@@ -150,25 +150,24 @@ class MyGpio:
 
 	# LED boxer
 	def gpio_led_boxer(self):
-		BCM_REVERSE_PINS = copy.copy(self.BCM_PINS)
+		ORG_PINS = self.BCM_PINS
+		BCM_REVERSE_PINS = copy.copy(ORG_PINS)
 		BCM_REVERSE_PINS.reverse()
+
+		COMB_PINS_INCREASE = ORG_PINS + BCM_REVERSE_PINS
+		COMB_PINS_DECREASE = BCM_REVERSE_PINS + ORG_PINS
+
 		while True:
-			for primary, secondary in self.BCM_PINS, BCM_REVERSE_PINS:
-				GPIO.output(primary, GPIO.HIGH)
-				GPIO.output(secondary, GPIO.HIGH)
+			for pin in range(0, len(ORG_PINS):
+				GPIO.output(COMB_PINS_INCREASE[pin], GPIO.HIGH)
+				GPIO.output(COMB_PINS_DECREASE[pin], GPIO.HIGH)
 				time.sleep(0.01)
-				GPIO.output(primary, GPIO.LOW)
-				GPIO.output(secondary, GPIO.LOW)
+				GPIO.output(COMB_PINS_INCREASE[pin], GPIO.LOW)
+				GPIO.output(COMB_PINS_DECREASE[pin], GPIO.LOW)
 				time.sleep(0.01)
-
-			for primary, secondary in BCM_REVERSE_PINS, self.BCM_PINS:
-				GPIO.output(primary, GPIO.HIGH)
-				GPIO.output(secondary, GPIO.HIGH)
-				time.sleep(0.01)
-				GPIO.output(primary, GPIO.LOW)
-				GPIO.output(secondary, GPIO.LOW)
-				time.sleep(0.01)			
-
+				print COMB_PINS_INCREASE[pin]
+				print COMB_PINS_DECREASE[pin]
+		
 
 
 
