@@ -145,7 +145,7 @@ class MyGpio:
 
 		for i in range(1, times):
 			leds = int(random.random() * len(self.BCM_PINS)) + 1
-			self.gpio_led_lights_on(leds, 0.01)
+			self.gpio_led_lights_on(leds, 0.05)
 			time.sleep(0.2)
 
 	# LED boxer
@@ -161,10 +161,10 @@ class MyGpio:
 			for pin in range(0, len(ORG_PINS)):
 				GPIO.output(COMB_PINS_INCREASE[pin], GPIO.HIGH)
 				GPIO.output(COMB_PINS_DECREASE[pin], GPIO.HIGH)
-				time.sleep(0.02)
+				time.sleep(0.05)
 				GPIO.output(COMB_PINS_INCREASE[pin], GPIO.LOW)
 				GPIO.output(COMB_PINS_DECREASE[pin], GPIO.LOW)
-				time.sleep(0.02)
+				time.sleep(0.05)
 				print COMB_PINS_INCREASE[pin]
 				print COMB_PINS_DECREASE[pin]
 		
@@ -186,7 +186,7 @@ if __name__ == "__main__":
 	while True:
 
 		for i in range(1, 20):
-			mygpio.gpio_led_toggle_show_once(0.01)
+			mygpio.gpio_led_toggle_show_once(0.05)
 
 		time.sleep(2)
 
