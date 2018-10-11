@@ -158,7 +158,7 @@ class MyGpio:
 		COMB_PINS_DECREASE = BCM_REVERSE_PINS + ORG_PINS
 
 		while True:
-			for pin in range(0, len(ORG_PINS):
+			for pin in range(0, len(ORG_PINS)):
 				GPIO.output(COMB_PINS_INCREASE[pin], GPIO.HIGH)
 				GPIO.output(COMB_PINS_DECREASE[pin], GPIO.HIGH)
 				time.sleep(0.01)
