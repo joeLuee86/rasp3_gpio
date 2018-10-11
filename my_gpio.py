@@ -179,7 +179,7 @@ if __name__ == "__main__":
 
 	mygpio.gpio_init_all_output()
 
-	mygpio.gpio_led_toggle_show_once(0.5)
+	mygpio.gpio_led_toggle_show_once(0.2)
 
 	time.sleep(2)
 
