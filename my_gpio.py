@@ -177,7 +177,7 @@ class MyGpio:
 	# initiate buttons pin, low is pressed.
 	def gpio_buttons_init(self):
 		for (pin, button) in self.BCM_BUTTONS.items():
-			GPIO.setup(pin, RPi.GPIO.IN, pull_up_down=GPIO.PUD_UP)
+			GPIO.setup(pin, GPIO.IN, pull_up_down=GPIO.PUD_UP)
 
 	def gpio_buttons_detect(self):
 		for (pin, button) in self.BCM_BUTTONS.items():
