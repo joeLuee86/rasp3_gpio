@@ -52,7 +52,7 @@ class MyGpio:
 	# BCM_PINS = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27]
 	BCM_PINS = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
 
-	BCM_BUTTONS = {'LEFT' : 20, 'MIDDLE' : 21, 'RIGHT' : 26}
+	BCM_BUTTONS = {'LEFT' : 21, 'MIDDLE' : 26, 'RIGHT' : 20}
 
 	ONE_MINITE_TICK = 60
 	ONE_HOUR_TICK = 60 * ONE_MINITE_TICK 
@@ -180,9 +180,12 @@ class MyGpio:
 			GPIO.setup(pin, GPIO.IN, pull_up_down=GPIO.PUD_UP)
 
 	def gpio_buttons_detect(self):
+
 		for (button, pin) in self.BCM_BUTTONS.items():
 			if (GPIO.input(pin) == 0):
-				return button
+				time.sleep(0.01)
+				if (GPIO.input(pin) == 0):
+					return button
 		return "NULL"
 
 
