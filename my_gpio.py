@@ -52,6 +52,8 @@ class MyGpio:
 	# BCM_PINS = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27]
 	BCM_PINS = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
 
+	BCM_BUTTONS = {20 : 'LEFT', 21 : 'MIDDLE', 26 : 'RIGHT'}
+
 	ONE_MINITE_TICK = 60
 	ONE_HOUR_TICK = 60 * ONE_MINITE_TICK 
 	HALF_DAY_TICK = 12 * ONE_HOUR_TICK 
@@ -169,6 +171,19 @@ class MyGpio:
 				print COMB_PINS_DECREASE[pin]
 		
 
+	#############################################################
+	# Buttons
+
+	# initiate buttons pin, low is pressed.
+	def gpio_buttons_init(self):
+		for pin, button in BCM_BUTTONS:
+			GPIO.setup(pin, RPi.GPIO.IN, pull_up_down=GPIO.PUD_UP)
+
+	def gpio_buttons_detect(self):
+		for pin, button in BCM_BUTTONS:
+			if (GPIO.input(pin) == 0):
+				return button
+		return "NULL"
 
 
 # start LED test
@@ -185,18 +200,22 @@ if __name__ == "__main__":
 
 	while True:
 
-		for i in range(1, 8):
-			mygpio.gpio_led_toggle_show_once(0.05)
+		button = mygpio.gpio_buttons_detect() 
+		if button != "NULL":
+			print button
 
-		time.sleep(2)
+		# for i in range(1, 8):
+		# 	mygpio.gpio_led_toggle_show_once(0.05)
 
-		mygpio.gpio_led_balancer_random(20)
+		# time.sleep(2)
 
-		time.sleep(2)
+		# mygpio.gpio_led_balancer_random(20)
+
+		# time.sleep(2)
 		
-		mygpio.gpio_led_boxer(20)
+		# mygpio.gpio_led_boxer(20)
 
-		time.sleep(2)
+		# time.sleep(2)
 
 
 
