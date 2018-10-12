@@ -194,6 +194,8 @@ if __name__ == "__main__":
 
 	mygpio.gpio_init_all_output()
 
+	mygpio.gpio_buttons_init()
+
 	mygpio.gpio_led_toggle_show_once(0.2)
 
 	time.sleep(2)
