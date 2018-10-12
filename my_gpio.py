@@ -185,6 +185,7 @@ class MyGpio:
 			if (GPIO.input(pin) == 0):
 				time.sleep(0.01)
 				if (GPIO.input(pin) == 0):
+					time.sleep(0.01)
 					return button
 		return "NULL"
 
