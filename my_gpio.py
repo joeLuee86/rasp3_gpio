@@ -52,6 +52,8 @@ class MyGpio:
 	# BCM_PINS = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27]
 	BCM_PINS = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
 
+	BAMP = 27
+
 	BCM_BUTTONS = {'LEFT' : 21, 'MIDDLE' : 26, 'RIGHT' : 20}
 
 	ONE_MINITE_TICK = 60
@@ -62,6 +64,7 @@ class MyGpio:
 
 	# initialize all pins as output direction
 	def gpio_init_all_output(self):
+		GPIO.setup(self.BAMP, GPIO.OUT)
 		for pin in self.BCM_PINS:
 			GPIO.setup(pin, GPIO.OUT)
 
@@ -209,6 +212,14 @@ if __name__ == "__main__":
 		button = mygpio.gpio_buttons_detect() 
 		if button != "NULL":
 			print button
+
+		if button == "RIGHT":
+			GPIO.output(mygpio.BAMP, GPIO.HIGH)
+
+		if button == "MIDDLE":
+			GPIO.output(mygpio.BAMP, GPIO.LOW)
+
+		time.sleep(0.3)
 
 		# for i in range(1, 8):
 		# 	mygpio.gpio_led_toggle_show_once(0.05)
