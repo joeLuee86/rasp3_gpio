@@ -235,6 +235,7 @@ if __name__ == "__main__":
 	for i in range(0, n_stars):
 		mygpio.print_n_stars((n_stars - i - 1), (2 * i + 1))
 		time.sleep(1)
+		mygpio.gpio_all_clear()
 
 	# while True:
 
