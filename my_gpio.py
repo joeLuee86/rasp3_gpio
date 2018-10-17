@@ -41,6 +41,7 @@ from threading import Timer
 import time
 import copy
 import random
+import string
 import RPi.GPIO as GPIO 
 
 # initialize the GPIO as BCM numbering
@@ -192,6 +193,26 @@ class MyGpio:
 					return button
 		return "NULL"
 
+	def print_n_stars(self, offset, number):
+		if number > len(self.BCM_PINS):
+			return
+
+		star_str = ''
+		if (offset == 0):
+			for i in range(0, number):
+				star_str += '*'
+		else:
+			for i in range(0, offset):
+				star_str += ' '
+
+			for i in range(0, number):
+				star_str += '*'
+
+		print star_str
+
+		for i in range(0, len(star_str)):
+			if star_str[i] == '*':
+				GPIO.output(self.BCM_PINS, GPIO.HIGH)
 
 # start LED test
 if __name__ == "__main__":
@@ -207,19 +228,27 @@ if __name__ == "__main__":
 
 	time.sleep(2)
 
-	while True:
+	num_stars = sys.argv[1]
+	print "You want to print " + num_stars + " stars tower!"
 
-		button = mygpio.gpio_buttons_detect() 
-		if button != "NULL":
-			print button
+	n_stars = int(num_stars)
+	for i in range(0, n_stars):
+		mygpio.print_n_stars((n_stars - i - 1), (2 * i + 1))
+		time.sleep(1)
 
-		if button == "RIGHT":
-			GPIO.output(mygpio.BAMP, GPIO.HIGH)
+	# while True:
 
-		if button == "MIDDLE":
-			GPIO.output(mygpio.BAMP, GPIO.LOW)
+	# 	button = mygpio.gpio_buttons_detect() 
+	# 	if button != "NULL":
+	# 		print button
 
-		time.sleep(0.3)
+	# 	if button == "RIGHT":
+	# 		GPIO.output(mygpio.BAMP, GPIO.HIGH)
+
+	# 	if button == "MIDDLE":
+	# 		GPIO.output(mygpio.BAMP, GPIO.LOW)
+
+	# 	time.sleep(0.3)
 
 		# for i in range(1, 8):
 		# 	mygpio.gpio_led_toggle_show_once(0.05)
