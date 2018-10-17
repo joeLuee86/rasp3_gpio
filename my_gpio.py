@@ -212,7 +212,7 @@ class MyGpio:
 
 		for i in range(0, len(star_str)):
 			if star_str[i] == '*':
-				GPIO.output(self.BCM_PINS, GPIO.HIGH)
+				GPIO.output(self.BCM_PINS[i], GPIO.HIGH)
 
 # start LED test
 if __name__ == "__main__":
