@@ -151,7 +151,7 @@ class MyGpio:
 
 		for i in range(1, times):
 			leds = int(random.random() * len(self.BCM_PINS)) + 1
-			self.gpio_led_lights_on(leds, 0.05)
+			self.gpio_led_lights_on(leds, 0.002)
 			time.sleep(0.2)
 
 	# LED boxer
@@ -194,7 +194,7 @@ class MyGpio:
 		return "NULL"
 
 	def print_n_stars(self, offset, number):
-		if number > len(self.BCM_PINS):
+		if number > (len(self.BCM_PINS) * 2 - 1):
 			return
 
 		star_str = ''
@@ -231,13 +231,13 @@ if __name__ == "__main__":
 	num_stars = sys.argv[1]
 	print "You want to print " + num_stars + " stars tower!"
 
-	n_stars = int(num_stars)
-	for i in range(0, n_stars):
-		mygpio.print_n_stars((n_stars - i - 1), (2 * i + 1))
-		time.sleep(1)
-		mygpio.gpio_all_clear()
+	# n_stars = int(num_stars)
+	# for i in range(0, n_stars):
+	# 	mygpio.print_n_stars((n_stars - i - 1), (2 * i + 1))
+	# 	time.sleep(1)
+	# 	mygpio.gpio_all_clear()
 
-	# while True:
+	while True:
 
 	# 	button = mygpio.gpio_buttons_detect() 
 	# 	if button != "NULL":
@@ -256,7 +256,7 @@ if __name__ == "__main__":
 
 		# time.sleep(2)
 
-		# mygpio.gpio_led_balancer_random(20)
+		mygpio.gpio_led_balancer_random(20)
 
 		# time.sleep(2)
 		
