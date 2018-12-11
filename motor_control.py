@@ -152,6 +152,8 @@ if __name__ == "__main__":
 
 	tank = SuperTank()
 
+	tank.brake()
+
 	for i in range(1, 10):
 		time.sleep(1)
 		tank.go_forward()
@@ -171,6 +173,8 @@ if __name__ == "__main__":
 		time.sleep(1)
 		tank.rotate_anti_clock()
 		tank.accelerate(i * 10)
+
+	tand.brake()
 
 
 
