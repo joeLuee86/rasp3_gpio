@@ -92,12 +92,12 @@ class MotorControl:
 		self.direction_val = ~self.direction_val
 
 
-	def move_forward(self, speed):
+	def move_forward(self):
 		GPIO.output(self.OUT_PUT_A, GPIO.HIGH)
 		GPIO.output(self.OUT_PUT_B, GPIO.LOW)
 
 
-	def move_back(self, speed):
+	def move_back(self):
 		GPIO.output(self.OUT_PUT_A, GPIO.LOW)
 		GPIO.output(self.OUT_PUT_B, GPIO.HIGH)
 
