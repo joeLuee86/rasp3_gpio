@@ -56,6 +56,8 @@ class MotorControl:
 
 	OUT_PUT_PWMS = 4
 
+	motorDutyCycle = 0
+
 	direction_val = 0  # 0 - clock-wise; 1 - anti-clock wise.
 
 	def pin_init(self, outA, outB, pwm):
@@ -103,9 +105,18 @@ class MotorControl:
 
 
 	def speed(self, val):
-		m = GPIO.PWM(self.OUT_PUT_PWMS, 100)
-		m.ChangeDutyCycle(val)		# range 0 - 100
-		m.start(0)
+		self.motorDutyCycle.ChangeDutyCycle(val)		# range 0 - 100
+	
+
+	def start(self, freq):
+		self.motorDutyCycle = GPIO.PWM(self.OUT_PUT_PWMS, freq)
+		self.motorDutyCycle.start(0)
+
+
+	def stop(self):
+		self.motorDutyCycle.stop()
+
+
 
 
 class SuperTank:
@@ -114,6 +125,14 @@ class SuperTank:
 
 	motor_2 = MotorControl()
 	motor_2.pin_init(9, 10, 0)
+
+	def start(self, freq):
+		self.motor_1.start(freq)
+		self.motor_2.start(freq)
+
+	def stop(self):
+		self.motor_1.stop()
+		self.motor_2.stop()
 
 	def go_forward(self):
 		self.motor_1.forward()
@@ -154,6 +173,8 @@ if __name__ == "__main__":
 	tank = SuperTank()
 
 	tank.brake()
+
+	tank.start(100)    # PWM with 100 HZ frequency
 
 	for i in range(1, 10):
 		time.sleep(1)
