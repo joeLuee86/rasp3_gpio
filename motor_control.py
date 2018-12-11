@@ -44,6 +44,9 @@ import random
 import string
 import RPi.GPIO as GPIO 
 
+# initialize the GPIO as BCM numbering
+GPIO.setmode(GPIO.BCM)
+
 
 class MotorControl:
 
