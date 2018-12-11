@@ -105,14 +105,15 @@ class MotorControl:
 	def speed(self, val):
 		m = GPIO.PWM(self.OUT_PUT_PWMS, 100)
 		m.ChangeDutyCycle(val)		# range 0 - 100
+		m.start(0)
 
 
 class SuperTank:
 	motor_1 = MotorControl()
-	motor_1.pin_init(7, 8, 2)
+	motor_1.pin_init(7, 8, 1)
 
 	motor_2 = MotorControl()
-	motor_2.pin_init(9, 10, 5)
+	motor_2.pin_init(9, 10, 0)
 
 	def go_forward(self):
 		self.motor_1.forward()
