@@ -70,14 +70,14 @@ class MotorControl:
 
 
 	def forward(self):
-		if direction_val:
+		if self.direction_val:
 			move_forward()
 		else:
 			move_back()
 
 
 	def reverse(self):
-		if direction_val:
+		if self.direction_val:
 			move_back()
 		else:
 			move_forward()
