@@ -196,7 +196,9 @@ if __name__ == "__main__":
 		tank.rotate_anti_clock()
 		tank.accelerate(i * 10)
 
-	tand.brake()
+	tank.brake()
+
+	tank.stop()
 
 
 
