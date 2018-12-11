@@ -71,16 +71,16 @@ class MotorControl:
 
 	def forward(self):
 		if self.direction_val:
-			move_forward()
+			self.move_forward()
 		else:
-			move_back()
+			self.move_back()
 
 
 	def reverse(self):
 		if self.direction_val:
-			move_back()
+			self.move_back()
 		else:
-			move_forward()
+			self.move_forward()
 
 
 	def brake(self):
@@ -103,7 +103,7 @@ class MotorControl:
 
 
 	def speed(self, val):
-		m = GPIO.PWM(OUT_PUT_PWMS, 100)
+		m = GPIO.PWM(self.OUT_PUT_PWMS, 100)
 		m.ChangeDutyCycle(val)		# range 0 - 100
 
 
