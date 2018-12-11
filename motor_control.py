@@ -176,25 +176,25 @@ if __name__ == "__main__":
 
 	tank.start(100)    # PWM with 100 HZ frequency
 
-	for i in range(1, 10):
-		time.sleep(1)
+	for i in range(1, 100):
+		time.sleep(0.1)
 		tank.go_forward()
-		tank.accelerate(i * 10)
+		tank.accelerate(i)
 
-	for i in range(1, 10):
-		time.sleep(1)
+	for i in range(1, 100):
+		time.sleep(0.1)
 		tank.go_back()
-		tank.accelerate(i * 10)
+		tank.accelerate(i)
 
-	for i in range(1, 10):
-		time.sleep(1)
+	for i in range(1, 100):
+		time.sleep(0.1)
 		tank.rotate_clock()
-		tank.accelerate(i * 10)
+		tank.accelerate(i)
 
-	for i in range(1, 10):
-		time.sleep(1)
+	for i in range(1, 100):
+		time.sleep(0.1)
 		tank.rotate_anti_clock()
-		tank.accelerate(i * 10)
+		tank.accelerate(i)
 
 	tank.brake()
 
