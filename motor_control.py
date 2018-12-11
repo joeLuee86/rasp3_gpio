@@ -109,10 +109,10 @@ class MotorControl:
 
 class SuperTank:
 	motor_1 = MotorControl()
-	motor_1.pin_init(0, 1, 2)
+	motor_1.pin_init(7, 8, 2)
 
 	motor_2 = MotorControl()
-	motor_2.pin_init(3, 4, 5)
+	motor_2.pin_init(9, 10, 5)
 
 	def go_forward(self):
 		self.motor_1.forward()
