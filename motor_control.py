@@ -86,7 +86,7 @@ class MotorControl:
 
 
 	def toggle_direction(self):
-		self.direction_val = !self.direction_val
+		self.direction_val = ~self.direction_val
 
 
 	def move_forward(self, speed):
