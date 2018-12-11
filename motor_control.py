@@ -115,36 +115,36 @@ class SuperTank:
 	motor_2.pin_init(3, 4, 5)
 
 	def go_forward(self):
-		motor_1.forward()
-		motor_2.forward()
+		self.motor_1.forward()
+		self.motor_2.forward()
 
 	def go_back(self):
-		motor_1.reverse()
-		motor_2.reverse()
+		self.motor_1.reverse()
+		self.motor_2.reverse()
 
 	def turn_left(self):
-		motor_1.brake()
-		motor_2.forward()
+		self.motor_1.brake()
+		self.motor_2.forward()
 
 	def turn_right(self):
-		motor_1.forward()
-		motor_2.brake()
+		self.motor_1.forward()
+		self.motor_2.brake()
 
 	def rotate_clock(self):
-		motor_1.forward()
-		motor_2.reverse()
+		self.motor_1.forward()
+		self.motor_2.reverse()
 
 	def rotate_anti_clock(self):
-		motor_1.reverse()
-		motor_2.forward()
+		self.motor_1.reverse()
+		self.motor_2.forward()
 
 	def accelerate(self, val):
-		motor_1.speed(val)
-		motor_2.speed(val)
+		self.motor_1.speed(val)
+		self.motor_2.speed(val)
 
 	def brake(self):
-		motor_1.brake()
-		motor_2.brake()
+		self.motor_1.brake()
+		self.motor_2.brake()
 
 
 if __name__ == "__main__":
