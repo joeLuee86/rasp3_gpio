@@ -179,7 +179,7 @@ if __name__ == "__main__":
 	for i in range(1, 10000):
 		time.sleep(0.1)
 		tank.go_forward()
-		tank.accelerate(45)
+		tank.accelerate(60)
 
 	# for i in range(1, 100):
 	# 	time.sleep(0.1)
