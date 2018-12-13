@@ -252,7 +252,7 @@ RECV_BUF = " "
 SLOPE = 0.05
 
 def parse_command(tank, command):
-	print command
+
 	if len(command) < 6:
 		return
 
@@ -357,8 +357,6 @@ if __name__ == "__main__":
 
 		RECV_BUF = c.recv(1024)
 
-		print RECV_BUF
-
 		# report format: 
 		# Command:parameter
 		# E.X
@@ -366,4 +364,6 @@ if __name__ == "__main__":
 		# 		angle:45:strength:90:tolerance:5
 		myList = RECV_BUF.split(":")
 		parse_command(myTank, myList)
+
+		myTank.brake()
 
