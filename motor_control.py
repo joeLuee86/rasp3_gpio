@@ -355,6 +355,8 @@ if __name__ == "__main__":
 	while True:
 		c, addr = mySocket.accept()     # ????????
 
+		RECV_BUF = " "
+
 		RECV_BUF = c.recv(1024)
 
 		# report format: 
