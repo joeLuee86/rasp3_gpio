@@ -143,7 +143,7 @@ class SuperTank:
 	GPIO.setup(BACK_TRIG, GPIO.OUT)	# Back Trig 
 	GPIO.setup(BACK_ECHO, GPIO.IN)		# Back Echo
 
-	BARRIER_TOLERANCE = 5    # the minim distance to barrier, cm
+	BARRIER_TOLERANCE = 20    # the minim distance to barrier, cm
 
 	def barrier_front(self):
 		GPIO.output(self.FRONT_TRIG, GPIO.LOW)
