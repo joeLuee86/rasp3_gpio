@@ -246,6 +246,7 @@ RECV_BUF = " "
 SLOPE = 0.05
 
 def parse_command(tank, command):
+	print command
 	angle = int(command[1])
 	strength = int(command[3])
 	tolerance = int(command[5])
@@ -294,7 +295,7 @@ def parse_command(tank, command):
 	elif angle >= 170 or angle <= 190:
 		# go left
 		tank.turn_left()
-		tank.accelerate()
+		tank.accelerate(strength)
 
 def my_tank_task():
 
