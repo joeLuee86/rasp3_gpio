@@ -42,6 +42,9 @@ import time
 import copy
 import random
 import string
+import threading
+import socket
+
 import RPi.GPIO as GPIO 
 
 # initialize the GPIO as BCM numbering
@@ -126,6 +129,54 @@ class SuperTank:
 	motor_2 = MotorControl()
 	motor_2.pin_init(9, 10, 0)
 
+
+	# init HC-SR04 ultrsonic distance detector
+	FRONT_TRIG = 11
+	FRONT_ECHO = 12
+
+	BACK_TRIG  = 13
+	BACK_ECHO  = 14
+
+	GPIO.setup(FRONT_TRIG, GPIO.OUT)	# Front Trig 
+	GPIO.setup(FRONT_ECHO, GPIO.IN)		# Front Echo
+
+	GPIO.setup(BACK_TRIG, GPIO.OUT)	# Back Trig 
+	GPIO.setup(BACK_ECHO, GPIO.IN)		# Back Echo
+
+	BARRIER_TOLERANCE = 5    # the minim distance to barrier, cm
+
+	def barrier_front():
+		GPIO.output(FRONT_TRIG, GPIO.LOW)
+		time.sleep(0.05)
+		# trig pulse
+		GPIO.output(FRONT_TRIG, GPIO.HIGH)
+		time.sleep(0.00001)
+		GPIO.output(FRONT_TRIG, GPIO.LOW)
+
+		while GPIO.input(FRONT_ECHO) == 0 :
+			start = time.time()
+
+		while GPIO.input(FRONT_ECHO) == 1 :
+			stop = time.time()
+
+		return (stop - start) * 340 * 100 / 2   # distance with cm unit
+
+	def barrier_back():
+		GPIO.output(BACK_TRIG, GPIO.LOW)
+		time.sleep(0.05)
+		# trig pulse
+		GPIO.output(BACK_TRIG, GPIO.HIGH)
+		time.sleep(0.00001)
+		GPIO.output(BACK_TRIG, GPIO.LOW)
+
+		while GPIO.input(BACK_ECHO) == 0 :
+			start = time.time()
+
+		while GPIO.input(BACK_ECHO) == 1 :
+			stop = time.time()
+
+		return (stop - start) * 340 * 100 / 2  # distance with cm unit
+
 	def start(self, freq):
 		self.motor_1.start(freq)
 		self.motor_2.start(freq)
@@ -135,12 +186,24 @@ class SuperTank:
 		self.motor_2.stop()
 
 	def go_forward(self):
+		if self.barrier_front() < self.BARRIER_TOLERANCE:
+			self.brake()
+			return 1
+
 		self.motor_1.forward()
 		self.motor_2.forward()
 
+		return 0
+
 	def go_back(self):
+		if self.barrier_back() < self.BARRIER_TOLERANCE:
+			self.brake()
+			return 1
+
 		self.motor_1.reverse()
 		self.motor_2.reverse()
+
+		return 0
 
 	def turn_left(self):
 		self.motor_1.brake()
@@ -166,6 +229,123 @@ class SuperTank:
 		self.motor_1.brake()
 		self.motor_2.brake()
 
+	def adjust_barrier_tolerance(self, tolerance):
+		if tolerance > 2:
+			self.BARRIER_TOLERANCE = tolerance
+
+
+
+
+
+# Global variables
+threadLock = threading.Lock()
+threads = []
+
+RECV_BUF = " "
+
+SLOPE = 0.05
+
+def parse_command(tank, command):
+	angle = int(command[1])
+	strength = int(command[3])
+	tolerance = int(command[5])
+
+	if angle < 170 and angle > 10:
+		# should forward
+		if angle > 80 and angle < 100:
+			# go straight forward
+			tank.go_forward()
+			tank.accelerate(strength)
+		else if angle < 80:
+			# go right forward
+			tank.turn_right()
+			tank.accelerate(strength)
+			time.sleep(SLOPE)
+			tank.go_forward()
+		else:
+			# go left forward
+			tank.turn_left()
+			tank.accelerate(strength)
+			time.sleep(SLOPE)
+			tank.go_forward()
+
+	else if angle > 190 and angle < 350:
+		# should back
+		if angle > 260 and angle < 280:
+			# go straight back
+			tank.go_back()
+			tank.accelerate()
+		else if angle > 180:
+			# go right back
+			tank.turn_left()
+			tank.accelerate(strength)
+			time.sleep(SLOPE)
+			tank.go_back()
+		else:
+			# go left back
+			tank.turn_right()
+			tank.accelerate(strength)
+			time.sleep(SLOPE)
+			tank.go_back()
+	else if angle =< 10 or angle >= 350:
+		# go right
+		tank.turn_right()
+		tank.accelerate(strength)
+	else if angle >= 170 or angle =< 190:
+		# go left
+		tank.turn_left()
+		tank.accelerate()
+
+def my_tank_task():
+
+	myTank = SuperTank()
+
+	myTank.brake() 
+
+	myTank.start(10000)   # PWM with 10 KHZ
+
+	command_handle = {
+		"forward" : myTank.go_forward(),
+		"back"    : myTank.go_back(),
+		"turn_left"	: myTank.turn_left(),
+		"turn_right" : myTank.turn_right(),
+		"rotate_clock" : myTank.rotate_clock(),
+		"rotate_anti_clock" : myTank.rotate_anti_clock(),
+		"accelerate" : myTank.accelerate(),
+		"brake" : myTank.brake(), 
+		"adjust_barrier_tolerance" : myTank.adjust_barrier_tolerance()
+	}
+
+	while(1):
+		threadLock.acquire()
+
+		# report format: 
+		# Command:parameter
+		# E.X
+		# 		angle:90:strength:50:tolerance:5
+		# 		angle:45:strength:90:tolerance:5
+		myList = RECV_BUF.split(":")
+		cmd, val = parse_command(myTank, myList)
+	
+
+
+def my_communication_task():
+	mySocket = socket.socket()
+	host = socket.gethostname()
+	port = 8080
+	mySocket.bind(host, port)
+
+	mySocket.listen(5)
+
+	client, address = mySocket.accept()
+	print "A client connected: IP:", address
+
+	threadLock.acquire()
+
+	while True:
+		RECV_BUF = mySocket.recv(1024)
+		threadLock.release()
+
 
 if __name__ == "__main__":
 
@@ -174,33 +354,18 @@ if __name__ == "__main__":
 
 	tank.brake()
 
-	tank.start(100)    # PWM with 100 HZ frequency
+	tank.start(10000)    # PWM with 10 KHZ frequency
 
-	for i in range(1, 10000):
-		time.sleep(0.1)
-		tank.go_forward()
+
+	while True:
+		time.sleep(1)
+
+		tank.go_forward(0)
+
+		tank.accelerate(30)
+
+		time.sleep(1)
+
 		tank.accelerate(60)
-
-	# for i in range(1, 100):
-	# 	time.sleep(0.1)
-	# 	tank.go_back()
-	# 	tank.accelerate(i)
-
-	# for i in range(1, 100):
-	# 	time.sleep(0.1)
-	# 	tank.rotate_clock()
-	# 	tank.accelerate(i)
-
-	# for i in range(1, 100):
-	# 	time.sleep(0.1)
-	# 	tank.rotate_anti_clock()
-	# 	tank.accelerate(i)
-
-	tank.brake()
-
-	tank.stop()
-
-
-
 
 
