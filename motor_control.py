@@ -304,17 +304,6 @@ def my_tank_task():
 
 	myTank.start(10000)   # PWM with 10 KHZ
 
-	command_handle = {
-		"forward" : myTank.go_forward(),
-		"back"    : myTank.go_back(),
-		"turn_left"	: myTank.turn_left(),
-		"turn_right" : myTank.turn_right(),
-		"rotate_clock" : myTank.rotate_clock(),
-		"rotate_anti_clock" : myTank.rotate_anti_clock(),
-		"accelerate" : myTank.accelerate(),
-		"brake" : myTank.brake(), 
-		"adjust_barrier_tolerance" : myTank.adjust_barrier_tolerance()
-	}
 
 	while(1):
 		threadLock.acquire()
@@ -330,37 +319,61 @@ def my_tank_task():
 
 
 def my_communication_task():
+	myTank = SuperTank()
+
+	myTank.brake() 
+
+	myTank.start(10000)   # PWM with 10 KHZ
+
 	mySocket = socket.socket()
 	host = socket.gethostname()
 	port = 8080
-	mySocket.bind(host, port)
+	mySocket.bind("192.168.1.106", 1234)
 
 	mySocket.listen(5)
 
 	client, address = mySocket.accept()
-	print "A client connected: IP:", address
-
-	threadLock.acquire()
+	print "A client connected: IP:", address 
 
 	while True:
 		RECV_BUF = mySocket.recv(1024)
-		threadLock.release()
+
+		# report format: 
+		# Command:parameter
+		# E.X
+		# 		angle:90:strength:50:tolerance:5
+		# 		angle:45:strength:90:tolerance:5
+		myList = RECV_BUF.split(":")
+		cmd, val = parse_command(myTank, myList)
+		
 
 
 if __name__ == "__main__":
 
+	myTank = SuperTank()
 
-	tank = SuperTank()
+	myTank.brake() 
 
-	tank.brake()
+	myTank.start(10000)   # PWM with 10 KHZ
 
-	tank.start(10000)    # PWM with 10 KHZ frequency
+	mySocket = socket.socket()
+	host = socket.gethostname()
+	port = 8080
+	mySocket.bind("192.168.1.106", 1234)
 
+	mySocket.listen(5)
+
+	client, address = mySocket.accept()
+	print "A client connected: IP:", address 
 
 	while True:
-		time.sleep(1)
+		RECV_BUF = mySocket.recv(1024)
 
-		print tank.barrier_front()
-		print tank.barrier_back()
-
+		# report format: 
+		# Command:parameter
+		# E.X
+		# 		angle:90:strength:50:tolerance:5
+		# 		angle:45:strength:90:tolerance:5
+		myList = RECV_BUF.split(":")
+		cmd, val = parse_command(myTank, myList)
 
