@@ -343,7 +343,7 @@ if __name__ == "__main__":
 	print "A client connected: IP:", address 
 
 	while True:
-		c, addr = s.accept()     # ????????
+		c, addr = mySocket.accept()     # ????????
 
 		RECV_BUF = mySocket.recv(1024)
 
