@@ -335,7 +335,7 @@ def my_communication_task():
 	while True:
 		c, addr = s.accept()     # ????????
 
-	    RECV_BUF c.recv(1024)
+	    RECV_BUF = c.recv(1024)
 
 	    print RECV_BUF
 
@@ -368,7 +368,11 @@ if __name__ == "__main__":
 	print "A client connected: IP:", address 
 
 	while True:
+		c, addr = s.accept()     # ????????
+
 		RECV_BUF = mySocket.recv(1024)
+
+		print RECV_BUF
 
 		# report format: 
 		# Command:parameter
