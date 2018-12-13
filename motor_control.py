@@ -274,7 +274,7 @@ def parse_command(tank, command):
 		if angle > 260 and angle < 280:
 			# go straight back
 			tank.go_back()
-			tank.accelerate()
+			tank.accelerate(strength)
 		elif angle > 180:
 			# go right back
 			tank.turn_left()
