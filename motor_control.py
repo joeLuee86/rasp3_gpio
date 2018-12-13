@@ -323,31 +323,6 @@ def my_communication_task():
 
 	myTank.brake() 
 
-	myTank.start(10000)   # PWM with 10 KHZ
-
-	s = socket.socket()         # ?? socket ??
-	host = socket.gethostname() # ???????
-	port = 1234                # ????
-	s.bind(("192.168.1.106", port))        # ????
-
-	s.listen(5)                 # ???????
-
-	while True:
-		c, addr = s.accept()     # ????????
-
-	    RECV_BUF = c.recv(1024)
-
-	    print RECV_BUF
-
-		# report format: 
-		# Command:parameter
-		# E.X
-		# 		angle:90:strength:50:tolerance:5
-		# 		angle:45:strength:90:tolerance:5
-		myList = RECV_BUF.split(":")
-		parse_command(myTank, myList)
-		
-
 
 if __name__ == "__main__":
 
