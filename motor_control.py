@@ -188,7 +188,8 @@ class SuperTank:
 	def go_forward(self):
 		fb = self.barrier_front()
 		if fb < self.BARRIER_TOLERANCE:
-			print "front barrier" + fb
+			print "front barrier"
+			print fb
 			self.brake()
 			return 1
 
@@ -200,7 +201,8 @@ class SuperTank:
 	def go_back(self):
 		bb = self.barrier_back()
 		if bb < self.BARRIER_TOLERANCE:
-			print "back barrier" + bb
+			print "back barrier"
+			print bb
 			self.brake()
 			return 1
 
@@ -251,7 +253,7 @@ SLOPE = 0.05
 
 def parse_command(tank, command):
 	print command
-	if ~len(command):
+	if len(command) < 6:
 		return
 
 	angle = int(command[1])
@@ -338,7 +340,7 @@ if __name__ == "__main__":
 
 	myTank.brake() 
 
-	myTank.start(10000)   # PWM with 10 KHZ
+	myTank.start(100)   # PWM with 10 KHZ
 
 	mySocket = socket.socket()
 	host = socket.gethostname()
