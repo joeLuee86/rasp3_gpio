@@ -256,7 +256,7 @@ def parse_command(tank, command):
 			# go straight forward
 			tank.go_forward()
 			tank.accelerate(strength)
-		else if angle < 80:
+		elif angle < 80:
 			# go right forward
 			tank.turn_right()
 			tank.accelerate(strength)
@@ -269,13 +269,13 @@ def parse_command(tank, command):
 			time.sleep(SLOPE)
 			tank.go_forward()
 
-	else if angle > 190 and angle < 350:
+	elif angle > 190 and angle < 350:
 		# should back
 		if angle > 260 and angle < 280:
 			# go straight back
 			tank.go_back()
 			tank.accelerate()
-		else if angle > 180:
+		elif angle > 180:
 			# go right back
 			tank.turn_left()
 			tank.accelerate(strength)
@@ -287,11 +287,11 @@ def parse_command(tank, command):
 			tank.accelerate(strength)
 			time.sleep(SLOPE)
 			tank.go_back()
-	else if angle =< 10 or angle >= 350:
+	elif angle =< 10 or angle >= 350:
 		# go right
 		tank.turn_right()
 		tank.accelerate(strength)
-	else if angle >= 170 or angle =< 190:
+	elif angle >= 170 or angle =< 190:
 		# go left
 		tank.turn_left()
 		tank.accelerate()
