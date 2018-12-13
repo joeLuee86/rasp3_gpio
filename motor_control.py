@@ -334,8 +334,8 @@ if __name__ == "__main__":
 
 	mySocket = socket.socket()
 	host = socket.gethostname()
-	port = 8080
-	mySocket.bind(("192.168.1.106", 1234))
+	port = 1234
+	mySocket.bind(("192.168.1.106", port))
 
 	mySocket.listen(5)
 
@@ -345,7 +345,7 @@ if __name__ == "__main__":
 	while True:
 		c, addr = mySocket.accept()     # ????????
 
-		RECV_BUF = mySocket.recv(1024)
+		RECV_BUF = c.recv(1024)
 
 		print RECV_BUF
 
