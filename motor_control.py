@@ -186,7 +186,9 @@ class SuperTank:
 		self.motor_2.stop()
 
 	def go_forward(self):
-		if self.barrier_front() < self.BARRIER_TOLERANCE:
+		fb = self.barrier_front()
+		if fb < self.BARRIER_TOLERANCE:
+			print "front barrier" + fb
 			self.brake()
 			return 1
 
@@ -196,7 +198,9 @@ class SuperTank:
 		return 0
 
 	def go_back(self):
-		if self.barrier_back() < self.BARRIER_TOLERANCE:
+		bb = self.barrier_back()
+		if bb < self.BARRIER_TOLERANCE:
+			print "back barrier" + bb
 			self.brake()
 			return 1
 
@@ -247,7 +251,7 @@ SLOPE = 0.05
 
 def parse_command(tank, command):
 	print command
-	if ~len(command)
+	if ~len(command):
 		return
 
 	angle = int(command[1])
