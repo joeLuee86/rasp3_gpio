@@ -159,7 +159,7 @@ class SuperTank:
 		while GPIO.input(self.FRONT_ECHO) == 1 :
 			stop = time.time()
 
-		return (stop - start) * 340 * 100 / 2   # distance with cm unit
+		return int((stop - start) * 340 * 100 / 2)   # distance with cm unit
 
 	def barrier_back(self):
 		GPIO.output(self.BACK_TRIG, GPIO.LOW)
@@ -175,7 +175,7 @@ class SuperTank:
 		while GPIO.input(self.BACK_ECHO) == 1 :
 			stop = time.time()
 
-		return (stop - start) * 340 * 100 / 2  # distance with cm unit
+		return int((stop - start) * 340 * 100 / 2)  # distance with cm unit
 
 	def start(self, freq):
 		self.motor_1.start(freq)
@@ -186,9 +186,9 @@ class SuperTank:
 		self.motor_2.stop()
 
 	def go_forward(self):
-		# if self.barrier_front() < self.BARRIER_TOLERANCE:
-		# 	self.brake()
-		# 	return 1
+		if self.barrier_front() < self.BARRIER_TOLERANCE:
+			self.brake()
+			return 1
 
 		self.motor_1.forward()
 		self.motor_2.forward()
@@ -196,9 +196,9 @@ class SuperTank:
 		return 0
 
 	def go_back(self):
-		# if self.barrier_back() < self.BARRIER_TOLERANCE:
-		# 	self.brake()
-		# 	return 1
+		if self.barrier_back() < self.BARRIER_TOLERANCE:
+			self.brake()
+			return 1
 
 		self.motor_1.reverse()
 		self.motor_2.reverse()
@@ -247,6 +247,9 @@ SLOPE = 0.05
 
 def parse_command(tank, command):
 	print command
+	if ~len(command)
+		return
+
 	angle = int(command[1])
 	strength = int(command[3])
 	tolerance = int(command[5])
