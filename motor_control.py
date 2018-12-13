@@ -360,7 +360,7 @@ if __name__ == "__main__":
 	mySocket = socket.socket()
 	host = socket.gethostname()
 	port = 8080
-	mySocket.bind("192.168.1.106", 1234)
+	mySocket.bind(("192.168.1.106", 1234))
 
 	mySocket.listen(5)
 
