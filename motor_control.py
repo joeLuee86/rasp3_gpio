@@ -306,7 +306,7 @@ def my_tank_task():
 
 	myTank.brake() 
 
-	myTank.start(10000)   # PWM with 10 KHZ
+	myTank.start(100)   # PWM with 10 KHZ
 
 
 	while(1):
