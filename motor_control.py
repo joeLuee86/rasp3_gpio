@@ -145,7 +145,7 @@ class SuperTank:
 
 	BARRIER_TOLERANCE = 5    # the minim distance to barrier, cm
 
-	def barrier_front():
+	def barrier_front(self):
 		GPIO.output(FRONT_TRIG, GPIO.LOW)
 		time.sleep(0.05)
 		# trig pulse
@@ -161,7 +161,7 @@ class SuperTank:
 
 		return (stop - start) * 340 * 100 / 2   # distance with cm unit
 
-	def barrier_back():
+	def barrier_back(self):
 		GPIO.output(BACK_TRIG, GPIO.LOW)
 		time.sleep(0.05)
 		# trig pulse
