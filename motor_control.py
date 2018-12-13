@@ -131,10 +131,10 @@ class SuperTank:
 
 
 	# init HC-SR04 ultrsonic distance detector
-	FRONT_TRIG = 11
-	FRONT_ECHO = 12
+	FRONT_TRIG = 3
+	FRONT_ECHO = 2
 
-	BACK_TRIG  = 13
+	BACK_TRIG  = 15
 	BACK_ECHO  = 14
 
 	GPIO.setup(FRONT_TRIG, GPIO.OUT)	# Front Trig 
@@ -360,12 +360,7 @@ if __name__ == "__main__":
 	while True:
 		time.sleep(1)
 
-		tank.go_forward(0)
-
-		tank.accelerate(30)
-
-		time.sleep(1)
-
-		tank.accelerate(60)
+		print "front ", tank.barrier_front()
+		print "back ",  tank.barrier_back()
 
 
