@@ -355,5 +355,5 @@ if __name__ == "__main__":
 		# 		angle:90:strength:50:tolerance:5
 		# 		angle:45:strength:90:tolerance:5
 		myList = RECV_BUF.split(":")
-		cmd, val = parse_command(myTank, myList)
+		parse_command(myTank, myList)
 
