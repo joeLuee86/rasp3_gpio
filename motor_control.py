@@ -325,18 +325,19 @@ def my_communication_task():
 
 	myTank.start(10000)   # PWM with 10 KHZ
 
-	mySocket = socket.socket()
-	host = socket.gethostname()
-	port = 8080
-	mySocket.bind("192.168.1.106", 1234)
+	s = socket.socket()         # ?? socket ??
+	host = socket.gethostname() # ???????
+	port = 1234                # ????
+	s.bind(("192.168.1.106", port))        # ????
 
-	mySocket.listen(5)
-
-	client, address = mySocket.accept()
-	print "A client connected: IP:", address 
+	s.listen(5)                 # ???????
 
 	while True:
-		RECV_BUF = mySocket.recv(1024)
+		c, addr = s.accept()     # ????????
+
+	    RECV_BUF c.recv(1024)
+
+	    print RECV_BUF
 
 		# report format: 
 		# Command:parameter
@@ -344,7 +345,7 @@ def my_communication_task():
 		# 		angle:90:strength:50:tolerance:5
 		# 		angle:45:strength:90:tolerance:5
 		myList = RECV_BUF.split(":")
-		cmd, val = parse_command(myTank, myList)
+		parse_command(myTank, myList)
 		
 
 
