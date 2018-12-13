@@ -360,7 +360,7 @@ if __name__ == "__main__":
 	while True:
 		time.sleep(1)
 
-		print "front ", tank.barrier_front()
-		print "back ",  tank.barrier_back()
+		print tank.barrier_front()
+		print tank.barrier_back()
 
 
