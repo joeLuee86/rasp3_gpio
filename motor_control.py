@@ -249,33 +249,33 @@ def parse_command(tank, command):
 	strength = int(command[3])
 	tolerance = int(command[5])
 
-	if angle < 110 and angle > 70:
+	if angle < 120 and angle > 60:
 		# should forward
 		print "go forward"
-		if FRONT_BARRIER == 1:
-			print "front barrier"
-			return
+		# if FRONT_BARRIER == 1:
+		# 	print "front barrier"
+		# 	return
 
 		tank.go_forward()
 		tank.accelerate(strength)
 
-	elif angle <= 70 or angle >= 290:
+	elif angle <= 60 or angle >= 300:
 		# turn left
 		print "turn left"
 		tank.turn_left()
 		tank.accelerate(strength)
 
-	elif angle >= 110 or angle <= 250:
+	elif angle >= 120 or angle <= 240:
 		# turn right
 		print "turn right"
 		tank.turn_right()
 		tank.accelerate(strength)
-	elif angle > 250 and angle < 290:
+	elif angle > 240 and angle < 300:
 		# go left
 		print "go back"
-		if BACK_BARRIER == 1:
-			print "back barrier"
-			return
+		# if BACK_BARRIER == 1:
+		# 	print "back barrier"
+		# 	return
 
 		tank.go_back()
 		tank.accelerate(strength)
