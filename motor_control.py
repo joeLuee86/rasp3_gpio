@@ -251,6 +251,7 @@ def parse_command(tank, command):
 
 	if angle < 110 and angle > 70:
 		# should forward
+		print "go forward"
 		if FRONT_BARRIER == 1:
 			print "front barrier"
 			return
@@ -260,15 +261,18 @@ def parse_command(tank, command):
 
 	elif angle <= 70 or angle >= 290:
 		# turn left
+		print "turn left"
 		tank.turn_left()
 		tank.accelerate(strength)
 
 	elif angle >= 110 or angle <= 250:
 		# turn right
+		print "turn right"
 		tank.turn_right()
 		tank.accelerate(strength)
 	elif angle > 250 and angle < 290:
 		# go left
+		print "go back"
 		if BACK_BARRIER == 1:
 			print "back barrier"
 			return
