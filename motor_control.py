@@ -275,7 +275,6 @@ def parse_command(tank, command):
 
 	angle = int(command[1])
 	strength = int(command[3])
-# 
 
 	if angle < 120 and angle > 60:
 		# should forward
@@ -363,7 +362,9 @@ if __name__ == "__main__":
 	print "A client connected: IP:", address 
 
 	# create thread
-	thread.start_new_thread(my_tank_task, (EVENT_F, EVENT_B))
+	t = threading.Thread(target=my_tank_task, args=(EVENT_F, EVENT_B))
+
+	t.start()
 
 	while True:
 		if PARSE_LOCK == 0:
