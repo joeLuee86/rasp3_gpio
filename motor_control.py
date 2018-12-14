@@ -239,11 +239,6 @@ BACK_BARRIER = 1
 
 SLOPE = 0.05
 
-myTank = SuperTank()
-
-myTank.brake() 
-
-myTank.start(100)   # PWM with 100HZ
 
 def parse_command(tank, command):
 	print command
@@ -285,6 +280,8 @@ def my_tank_task(thread_name, val):
 
 	print thread_name
 
+	myTank = SuperTank()
+
 	while(1):
 		time.sleep(0.5)
 
@@ -306,7 +303,11 @@ def my_tank_task(thread_name, val):
 		
 
 if __name__ == "__main__":
+	myTank = SuperTank()
 
+	myTank.brake() 
+
+	myTank.start(100)   # PWM with 100HZ
 
 	mySocket = socket.socket()
 	host = socket.gethostname()
