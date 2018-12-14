@@ -339,5 +339,4 @@ if __name__ == "__main__":
 		myList = RECV_BUF.split(":")
 		parse_command(myTank, myList)
 
-		myTank.brake()
 
