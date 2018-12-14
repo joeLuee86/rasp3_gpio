@@ -339,6 +339,9 @@ def my_tank_task(thread_name, val):
 		else:
 			BACK_BARRIER = 0
 
+		print "FRONT_BARRIER" + str(FRONT_BARRIER)
+		print "BACK_BARRIER " + str(BACK_BARRIER)
+
 		
 
 if __name__ == "__main__":
