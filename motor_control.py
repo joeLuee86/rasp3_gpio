@@ -246,7 +246,7 @@ myTank.brake()
 myTank.start(100)   # PWM with 100HZ
 
 def parse_command(tank, command):
-
+	print command
 	if len(command) < 6:
 		return
 
@@ -257,6 +257,7 @@ def parse_command(tank, command):
 	if angle < 110 and angle > 70:
 		# should forward
 		if FRONT_BARRIER == 1:
+			print "front barrier"
 			return
 
 		tank.go_forward()
@@ -274,6 +275,7 @@ def parse_command(tank, command):
 	elif angle > 250 and angle < 290:
 		# go left
 		if BACK_BARRIER == 1:
+			print "back barrier"
 			return
 
 		tank.go_back()
