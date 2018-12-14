@@ -43,6 +43,7 @@ import copy
 import random
 import string
 import threading
+import thread
 import socket
 
 import RPi.GPIO as GPIO 
@@ -186,26 +187,12 @@ class SuperTank:
 		self.motor_2.stop()
 
 	def go_forward(self):
-		fb = self.barrier_front()
-		if fb < self.BARRIER_TOLERANCE:
-			print "front barrier"
-			print fb
-			self.brake()
-			return 1
-
 		self.motor_1.forward()
 		self.motor_2.forward()
 
 		return 0
 
 	def go_back(self):
-		bb = self.barrier_back()
-		if bb < self.BARRIER_TOLERANCE:
-			print "back barrier"
-			print bb
-			self.brake()
-			return 1
-
 		self.motor_1.reverse()
 		self.motor_2.reverse()
 
@@ -247,9 +234,16 @@ class SuperTank:
 threadLock = threading.Lock()
 threads = []
 
-RECV_BUF = " "
+FRONT_BARRIER = 1
+BACK_BARRIER = 1
 
 SLOPE = 0.05
+
+myTank = SuperTank()
+
+myTank.brake() 
+
+myTank.start(100)   # PWM with 100HZ
 
 def parse_command(tank, command):
 
@@ -260,87 +254,52 @@ def parse_command(tank, command):
 	strength = int(command[3])
 	tolerance = int(command[5])
 
-	if angle < 170 and angle > 10:
+	if angle < 110 and angle > 70:
 		# should forward
-		if angle > 80 and angle < 100:
-			# go straight forward
-			tank.go_forward()
-			tank.accelerate(strength)
-		elif angle < 80:
-			# go right forward
-			tank.turn_right()
-			tank.accelerate(strength)
-			time.sleep(SLOPE)
-			tank.go_forward()
-		else:
-			# go left forward
-			tank.turn_left()
-			tank.accelerate(strength)
-			time.sleep(SLOPE)
-			tank.go_forward()
+		if FRONT_BARRIER == 1:
+			return
 
-	elif angle > 190 and angle < 350:
-		# should back
-		if angle > 260 and angle < 280:
-			# go straight back
-			tank.go_back()
-			tank.accelerate(strength)
-		elif angle > 180:
-			# go right back
-			tank.turn_left()
-			tank.accelerate(strength)
-			time.sleep(SLOPE)
-			tank.go_back()
-		else:
-			# go left back
-			tank.turn_right()
-			tank.accelerate(strength)
-			time.sleep(SLOPE)
-			tank.go_back()
-	elif angle <= 10 or angle >= 350:
-		# go right
-		tank.turn_right()
+		tank.go_forward()
 		tank.accelerate(strength)
-	elif angle >= 170 or angle <= 190:
-		# go left
+
+	elif angle <= 70 or angle >= 290:
+		# turn left
 		tank.turn_left()
 		tank.accelerate(strength)
 
-def my_tank_task():
+	elif angle >= 110 or angle <= 250:
+		# turn right
+		tank.turn_right()
+		tank.accelerate(strength)
+	elif angle > 250 and angle < 290:
+		# go left
+		if BACK_BARRIER == 1:
+			return
 
-	myTank = SuperTank()
+		tank.go_back()
+		tank.accelerate(strength)
 
-	myTank.brake() 
+def my_tank_task(thread_name, val):
 
-	myTank.start(100)   # PWM with 10 KHZ
-
+	print thread_name
 
 	while(1):
-		threadLock.acquire()
+		time.sleep(0.5)
 
-		# report format: 
-		# Command:parameter
-		# E.X
-		# 		angle:90:strength:50:tolerance:5
-		# 		angle:45:strength:90:tolerance:5
-		myList = RECV_BUF.split(":")
-		cmd, val = parse_command(myTank, myList)
-	
+		if myTank.barrier_front() < myTank.BARRIER_TOLERANCE:
+			FRONT_BARRIER = 1
+		else:
+			FRONT_BARRIER = 0
 
+		if myTank.barrier_back() < myTank.BARRIER_TOLERANCE:
+			BACK_BARRIER = 1
+		else:
+			BACK_BARRIER = 0
 
-def my_communication_task():
-	myTank = SuperTank()
-
-	myTank.brake() 
-
+		
 
 if __name__ == "__main__":
 
-	myTank = SuperTank()
-
-	myTank.brake() 
-
-	myTank.start(100)   # PWM with 10 KHZ
 
 	mySocket = socket.socket()
 	host = socket.gethostname()
@@ -351,6 +310,9 @@ if __name__ == "__main__":
 
 	client, address = mySocket.accept()
 	print "A client connected: IP:", address 
+
+	# create thread
+	thread.start_new_thread(my_tank_task, ("barrier_task", 1))
 
 	while True:
 		c, addr = mySocket.accept()     # ????????
