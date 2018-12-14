@@ -254,7 +254,9 @@ class SuperTank:
 
 
 # Global variables
-threadLock = threading.Lock()
+
+EVENT_F = threading.Event()
+EVENT_B = threading.Event()
 threads = []
 
 FRONT_BARRIER = 1
@@ -277,7 +279,7 @@ def parse_command(tank, command):
 
 	if angle < 120 and angle > 60:
 		# should forward
-		if FRONT_BARRIER == 1:
+		if not EVENT_F.is_set():
 			print "front barrier"
 			return
 
@@ -307,7 +309,7 @@ def parse_command(tank, command):
 
 	elif angle > 240 and angle < 300:
 		# go left
-		if BACK_BARRIER == 1:
+		if not EVENT_B.is_set():
 			print "back barrier"
 			return
 
@@ -316,7 +318,7 @@ def parse_command(tank, command):
 
 	PARSE_LOCK = 0
 
-def my_tank_task(thread_name, val):
+def my_tank_task(event_front, event_back):
 
 	print thread_name
 
@@ -326,21 +328,19 @@ def my_tank_task(thread_name, val):
 		time.sleep(0.3)
 
 		if myTank.barrier_front() < myTank.BARRIER_TOLERANCE:
-			print "front barrier"
-			print myTank.barrier_front()
 			FRONT_BARRIER = 1
+			event_front.clear()
 		else:
 			FRONT_BARRIER = 0
+			event_front.set()
 
 		if myTank.barrier_back() < myTank.BARRIER_TOLERANCE:
-			print "back barrier"
-			print myTank.barrier_back()
 			BACK_BARRIER = 1
+			event_back.clear()
 		else:
 			BACK_BARRIER = 0
+			event_back.set()
 
-		print "FRONT_BARRIER" + str(FRONT_BARRIER)
-		print "BACK_BARRIER " + str(BACK_BARRIER)
 
 		
 
@@ -363,7 +363,7 @@ if __name__ == "__main__":
 	print "A client connected: IP:", address 
 
 	# create thread
-	thread.start_new_thread(my_tank_task, ("barrier_task", 1))
+	thread.start_new_thread(my_tank_task, (EVENT_F, EVENT_B))
 
 	while True:
 		if PARSE_LOCK == 0:
