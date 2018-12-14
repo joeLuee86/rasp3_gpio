@@ -236,6 +236,21 @@ class SuperTank:
 
 
 
+# def is_number(s):
+#     try:
+#         float(s)
+#         return True
+#     except ValueError:
+#         pass
+ 
+#     try:
+#         import unicodedata
+#         unicodedata.numeric(s)
+#         return True
+#     except (TypeError, ValueError):
+#         pass
+ 
+#     return False
 
 
 # Global variables
@@ -258,7 +273,7 @@ def parse_command(tank, command):
 
 	angle = int(command[1])
 	strength = int(command[3])
-	tolerance = int(command[5])
+# 
 
 	if angle < 120 and angle > 60:
 		# should forward
@@ -351,8 +366,6 @@ if __name__ == "__main__":
 			RECV_BUF = " "
 
 			RECV_BUF = c.recv(1024)
-
-			tempList = RECV_BUF.split("angle")
 
 			# report format: 
 			# Command:parameter
