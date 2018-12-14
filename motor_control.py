@@ -326,11 +326,15 @@ def my_tank_task(thread_name, val):
 		time.sleep(0.3)
 
 		if myTank.barrier_front() < myTank.BARRIER_TOLERANCE:
+			print "front barrier"
+			print myTank.barrier_front()
 			FRONT_BARRIER = 1
 		else:
 			FRONT_BARRIER = 0
 
 		if myTank.barrier_back() < myTank.BARRIER_TOLERANCE:
+			print "back barrier"
+			print myTank.barrier_back()
 			BACK_BARRIER = 1
 		else:
 			BACK_BARRIER = 0
