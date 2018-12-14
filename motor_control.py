@@ -247,9 +247,12 @@ BACK_BARRIER = 1
 
 SLOPE = 0.05
 
+PARSE_LOCK = 0
+
 
 def parse_command(tank, command):
 	print command
+	PARSE_LOCK = 1
 	if len(command) < 6:
 		return
 
@@ -296,6 +299,8 @@ def parse_command(tank, command):
 		tank.go_back()
 		tank.accelerate(strength)
 
+	PARSE_LOCK = 0
+
 def my_tank_task(thread_name, val):
 
 	print thread_name
@@ -339,18 +344,20 @@ if __name__ == "__main__":
 	thread.start_new_thread(my_tank_task, ("barrier_task", 1))
 
 	while True:
-		c, addr = mySocket.accept()     # ????????
+		if PARSE_LOCK == 0:
 
-		RECV_BUF = " "
+			c, addr = mySocket.accept()     # ????????
 
-		RECV_BUF = c.recv(1024)
+			RECV_BUF = " "
 
-		# report format: 
-		# Command:parameter
-		# E.X
-		# 		angle:90:strength:50:tolerance:5
-		# 		angle:45:strength:90:tolerance:5
-		myList = RECV_BUF.split(":")
-		parse_command(myTank, myList)
+			RECV_BUF = c.recv(1024)
+
+			# report format: 
+			# Command:parameter
+			# E.X
+			# 		angle:90:strength:50:tolerance:5
+			# 		angle:45:strength:90:tolerance:5
+			myList = RECV_BUF.split(":")
+			parse_command(myTank, myList)
 
 
