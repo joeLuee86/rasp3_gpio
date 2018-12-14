@@ -352,12 +352,14 @@ if __name__ == "__main__":
 
 			RECV_BUF = c.recv(1024)
 
+			tempList = RECV_BUF.split("angle")
+
 			# report format: 
 			# Command:parameter
 			# E.X
 			# 		angle:90:strength:50:tolerance:5
 			# 		angle:45:strength:90:tolerance:5
-			myList = RECV_BUF.split(":")
+			myList = tempList[0].split(":")
 			parse_command(myTank, myList)
 
 
