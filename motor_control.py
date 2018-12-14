@@ -132,11 +132,11 @@ class SuperTank:
 
 
 	# init HC-SR04 ultrsonic distance detector
-	FRONT_TRIG = 3
-	FRONT_ECHO = 2
+	FRONT_TRIG = 15
+	FRONT_ECHO = 14
 
-	BACK_TRIG  = 15
-	BACK_ECHO  = 14
+	BACK_TRIG  = 3
+	BACK_ECHO  = 2
 
 	GPIO.setup(FRONT_TRIG, GPIO.OUT)	# Front Trig 
 	GPIO.setup(FRONT_ECHO, GPIO.IN)		# Front Echo
@@ -283,12 +283,7 @@ def my_tank_task(thread_name, val):
 	myTank = SuperTank()
 
 	while(1):
-		time.sleep(0.5)
-
-		print "front"
-		print myTank.barrier_front()
-		print "back"
-		print myTank.barrier_back()
+		time.sleep(0.3)
 
 		if myTank.barrier_front() < myTank.BARRIER_TOLERANCE:
 			FRONT_BARRIER = 1
@@ -308,6 +303,13 @@ if __name__ == "__main__":
 	myTank.brake() 
 
 	myTank.start(100)   # PWM with 100HZ
+
+	myTank.go_forward()
+	myTank.accelerate(50)
+	time.sleep(0.5)
+	myTank.go_back()
+	time.sleep(0.5)
+	myTank.brake()
 
 	mySocket = socket.socket()
 	host = socket.gethostname()
