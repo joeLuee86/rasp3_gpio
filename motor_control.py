@@ -98,12 +98,12 @@ class MotorControl:
 		self.direction_val = ~self.direction_val
 
 
-	def move_forward(self):
+	def move_back(self):
 		GPIO.output(self.OUT_PUT_A, GPIO.HIGH)
 		GPIO.output(self.OUT_PUT_B, GPIO.LOW)
 
 
-	def move_back(self):
+	def move_forward(self):
 		GPIO.output(self.OUT_PUT_A, GPIO.LOW)
 		GPIO.output(self.OUT_PUT_B, GPIO.HIGH)
 
@@ -265,7 +265,7 @@ def parse_command(tank, command):
 		tank.turn_left()
 		tank.accelerate(strength)
 
-	elif angle >= 120 or angle <= 240:
+	elif angle >= 120 and angle <= 240:
 		# turn right
 		print "turn right"
 		tank.turn_right()
