@@ -372,7 +372,7 @@ if __name__ == "__main__":
 			# E.X
 			# 		angle:90:strength:50:tolerance:5
 			# 		angle:45:strength:90:tolerance:5
-			myList = tempList[0].split(":")
+			myList = RECV_BUF.split(":")
 			parse_command(myTank, myList)
 
 
