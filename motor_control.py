@@ -206,7 +206,7 @@ class SuperTank:
 			self.motor_1.brake()
 			self.motor_2.reverse()
 
-	def turn_right(self, fir):
+	def turn_left(self, fir):
 		if dir == 1:
 			self.motor_1.forward()
 			self.motor_2.brake()
