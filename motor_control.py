@@ -195,7 +195,7 @@ class SuperTank:
 
 		return 0
 
-	def go_back(self,, acc_left, acc_right):
+	def go_back(self, acc_left, acc_right):
 		self.motor_1.reverse()
 		self.motor_2.reverse()
 		self.motor_1.speed(acc_left)
@@ -237,8 +237,8 @@ class SuperTank:
 	def brake(self):
 		self.motor_1.brake()
 		self.motor_2.brake()
-		self.motor_1.speed(0)
-		self.motor_2.speed(0)	
+		# self.motor_1.speed(0)
+		# self.motor_2.speed(0)	
 
 	def adjust_barrier_tolerance(self, tolerance):
 		if tolerance > 2:
@@ -294,7 +294,7 @@ def parse_command(tank, command):
 		# turn forward right
 		print "turn forward right"
 		if is_front_barrier == 0:
-			acc_right = int(abs(math.cos(strength * math.pi / 180) * 100))
+			acc_right = int(abs(math.cos(angle * math.pi / 180) * strength))
 			tank.go_forward(acc_right, strength)
 		else:
 			tank.brake()		
@@ -304,7 +304,7 @@ def parse_command(tank, command):
 		# turn back right
 		print "turn back right"
 		if is_back_barrier == 0:
-			acc_right = int(abs(math.cos(strength * math.pi / 180) * 100))
+			acc_right = int(abs(math.cos(angle * math.pi / 180) * strength))
 			tank.go_back(acc_right, strength)
 		else:
 			tank.brake()
@@ -316,7 +316,7 @@ def parse_command(tank, command):
 	elif angle >= 100 and angle <= 170:
 		# turn forward left
 		print "turn forward left"
-		acc_left = int(abs(math.cos(strength * math.pi / 180) * 100))
+		acc_left = int(abs(math.cos(angle * math.pi / 180) * strength))
 		tank.go_forward(strength, acc_left)
 
 	elif angle > 170 and angle < 190:
@@ -325,7 +325,7 @@ def parse_command(tank, command):
 
 	elif angle >= 190 and angle <= 260:
 		print "turn back left"
-		acc_left = int(abs(math.cos(strength * math.pi / 180) * 100))
+		acc_left = int(abs(math.cos(angle * math.pi / 180) * strength))
 		tank.go_back(strength, acc_left)
 
 	elif angle > 260 and angle < 280:
