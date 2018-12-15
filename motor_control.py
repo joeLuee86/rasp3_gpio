@@ -259,8 +259,6 @@ EVENT_F = threading.Event()
 EVENT_B = threading.Event()
 threads = []
 
-FRONT_BARRIER = 1
-BACK_BARRIER = 1
 
 SLOPE = 0.05
 
@@ -278,7 +276,7 @@ def parse_command(tank, command):
 
 	if angle < 120 and angle > 60:
 		# should forward
-		if not EVENT_F.is_set():
+		if EVENT_F.is_set():
 			print "front barrier"
 			return
 
@@ -308,7 +306,7 @@ def parse_command(tank, command):
 
 	elif angle > 240 and angle < 300:
 		# go left
-		if not EVENT_B.is_set():
+		if EVENT_B.is_set():
 			print "back barrier"
 			return
 
@@ -340,6 +338,9 @@ def my_tank_task(event_front, event_back):
 			BACK_BARRIER = 0
 			event_back.set()
 
+		print "Front event is set " + str(event_front.is_set())
+		print "Back event is set " + str(event_back.is_set())
+
 
 		
 
@@ -349,7 +350,6 @@ if __name__ == "__main__":
 	myTank.brake() 
 
 	myTank.start(100)   # PWM with 100HZ
-
 
 	mySocket = socket.socket()
 	host = socket.gethostname()
