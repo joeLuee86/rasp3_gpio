@@ -208,11 +208,12 @@ class SuperTank:
 
 	def turn_left(self, fir):
 		if dir == 1:
+			self.motor_2.brake()
 			self.motor_1.forward()
-			self.motor_2.brake()
 		else:
-			self.motor_1.reverse()
 			self.motor_2.brake()
+			self.motor_1.reverse()
+			
 
 	def rotate_clock(self):
 		self.motor_1.forward()
@@ -282,26 +283,26 @@ def parse_command(tank, command):
 			tank.brake()
 
 	elif angle <= 60:
-		# turn forward left
-		print "turn forward left"
-		tank.turn_left(1)
-		tank.accelerate(strength)
-
-	elif angle >= 300:
-		# turn back left
-		print "turn back left"
-		tank.turn_left(0)
-		tank.accelerate(strength)
-
-	elif angle >= 120 and angle <= 180:
-		# turn right
+		# turn forward right
 		print "turn forward right"
 		tank.turn_right(1)
 		tank.accelerate(strength)
 
-	elif angle > 180 and angle <= 240:
+	elif angle >= 300:
+		# turn back left
 		print "turn back right"
 		tank.turn_right(0)
+		tank.accelerate(strength)
+
+	elif angle >= 120 and angle <= 180:
+		# turn right
+		print "turn forward left"
+		tank.turn_left(1)
+		tank.accelerate(strength)
+
+	elif angle > 180 and angle <= 240:
+		print "turn back left"
+		tank.turn_left(0)
 		tank.accelerate(strength)
 
 	elif angle > 240 and angle < 300:
