@@ -381,37 +381,41 @@ if __name__ == "__main__":
 
 	myTank.brake() 
 
-	# myTank.start(100)   # PWM with 100HZ
+	myTank.start(100)
 
-	# myTank.accelerate(40)
+	myTank.go_forward(50, 40)
+	time.sleep(1)
 
-	# myTank.turn_left(1)
-	# time.sleep(0.5)
+	myTank.brake()
 
-	# myTank.turn_left(0)
-	# time.sleep(0.5)
+	myTank.go_forward(40, 50)
+	time.sleep(1)
 
-	# myTank.turn_right(1)
-	# time.sleep(0.5)
+	myTank.brake()
 
-	# myTank.turn_right(0)
-	# time.sleep(0.5)
+	myTank.go_back(50, 40)
+	time.sleep(1)
 
-	# myTank.brake()
+	myTank.brake()
 
-	thread.start_new_thread(my_tank_task, ("tank_task", 1))
+	myTank.go_back(40, 50)
+	time.sleep(1)
 
-	while(1):
-		time.sleep(0.1)
+	myTank.brake()
 
-		if myTank.barrier_front() < myTank.BARRIER_TOLERANCE:
-			is_front_barrier = 1
-		else:
-			is_front_barrier = 0
+	# thread.start_new_thread(my_tank_task, ("tank_task", 1))
 
-		if myTank.barrier_back() < myTank.BARRIER_TOLERANCE:
-			is_back_barrier = 1
-		else:
-			is_back_barrier = 0
+	# while(1):
+	# 	time.sleep(0.1)
+
+	# 	if myTank.barrier_front() < myTank.BARRIER_TOLERANCE:
+	# 		is_front_barrier = 1
+	# 	else:
+	# 		is_front_barrier = 0
+
+	# 	if myTank.barrier_back() < myTank.BARRIER_TOLERANCE:
+	# 		is_back_barrier = 1
+	# 	else:
+	# 		is_back_barrier = 0
 
 
