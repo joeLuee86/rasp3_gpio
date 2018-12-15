@@ -361,6 +361,8 @@ if __name__ == "__main__":
 
 	myTank.start(100)   # PWM with 100HZ
 
+	myTank.accelerate(40)
+
 	myTank.turn_left(1)
 	time.sleep(0.5)
 
@@ -372,6 +374,8 @@ if __name__ == "__main__":
 
 	myTank.turn_right(0)
 	time.sleep(0.5)
+
+	myTank.brake()
 
 	# thread.start_new_thread(my_tank_task, ("tank_task", 1))
 
