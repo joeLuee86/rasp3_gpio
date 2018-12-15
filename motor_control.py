@@ -275,7 +275,7 @@ def parse_command(tank, command):
 
 	if angle < 120 and angle > 60:
 		# should forward
-		if EVENT_F.is_set():
+		if is_front_barrier == 0:
 			tank.go_forward()
 			tank.accelerate(strength)
 
@@ -302,7 +302,7 @@ def parse_command(tank, command):
 
 	elif angle > 240 and angle < 300:
 		# go left
-		if EVENT_B.is_set():
+		if is_back_barrier == 0:
 			tank.go_back()
 			tank.accelerate(strength)
 
@@ -349,9 +349,8 @@ if __name__ == "__main__":
 	print "A client connected: IP:", address 
 
 	# create thread
-	t = thread.start_newtThread(my_tank_task, ("detect_task", 1))
+	thread.start_newtThread(my_tank_task, ("detect_task", 1))
 
-	t.start()
 
 	while True:
 		if PARSE_LOCK == 0:
