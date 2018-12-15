@@ -284,24 +284,24 @@ def parse_command(tank, command):
 	elif angle <= 60:
 		# turn forward left
 		print "turn forward left"
-		tank.turn_right(1)
+		tank.turn_left(1)
 		tank.accelerate(strength)
 
 	elif angle >= 300:
 		# turn back left
 		print "turn back left"
-		tank.turn_right(0)
+		tank.turn_left(0)
 		tank.accelerate(strength)
 
 	elif angle >= 120 and angle <= 180:
 		# turn right
 		print "turn forward right"
-		tank.turn_left(1)
+		tank.turn_right(1)
 		tank.accelerate(strength)
 
 	elif angle > 180 and angle <= 240:
 		print "turn back right"
-		tank.turn_left(0)
+		tank.turn_right(0)
 		tank.accelerate(strength)
 
 	elif angle > 240 and angle < 300:
