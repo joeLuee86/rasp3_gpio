@@ -274,6 +274,7 @@ def parse_command(tank, command):
 	strength = int(command[3])
 
 	if angle < 120 and angle > 60:
+		print "is_front_barrier = " + str(is_front_barrier)
 		# should forward
 		if is_front_barrier == 0:
 			tank.go_forward()
