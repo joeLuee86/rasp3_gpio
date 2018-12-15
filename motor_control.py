@@ -36,7 +36,7 @@
 ###################################################################
 
 # import the necessary modules
-import sys
+import re,sys
 from threading import Timer
 import time
 import copy
@@ -255,9 +255,8 @@ class SuperTank:
 
 # Global variables
 
-EVENT_F = threading.Event()
-EVENT_B = threading.Event()
-threads = []
+is_front_barrier = 1
+is_back_barrier = 1
 
 
 SLOPE = 0.05
@@ -277,11 +276,8 @@ def parse_command(tank, command):
 	if angle < 120 and angle > 60:
 		# should forward
 		if EVENT_F.is_set():
-			print "front barrier"
-			return
-
-		tank.go_forward()
-		tank.accelerate(strength)
+			tank.go_forward()
+			tank.accelerate(strength)
 
 	elif angle <= 60:
 		# turn forward left
@@ -307,17 +303,12 @@ def parse_command(tank, command):
 	elif angle > 240 and angle < 300:
 		# go left
 		if EVENT_B.is_set():
-			print "back barrier"
-			return
-
-		tank.go_back()
-		tank.accelerate(strength)
+			tank.go_back()
+			tank.accelerate(strength)
 
 	PARSE_LOCK = 0
 
-def my_tank_task(event_front, event_back):
-
-	print thread_name
+def my_tank_task(name, val):
 
 	myTank = SuperTank()
 
@@ -325,21 +316,17 @@ def my_tank_task(event_front, event_back):
 		time.sleep(0.3)
 
 		if myTank.barrier_front() < myTank.BARRIER_TOLERANCE:
-			FRONT_BARRIER = 1
-			event_front.clear()
+			is_front_barrier = 1
 		else:
-			FRONT_BARRIER = 0
-			event_front.set()
+			is_front_barrier = 0
 
 		if myTank.barrier_back() < myTank.BARRIER_TOLERANCE:
-			BACK_BARRIER = 1
-			event_back.clear()
+			is_back_barrier = 1
 		else:
-			BACK_BARRIER = 0
-			event_back.set()
+			is_back_barrier = 0
 
-		print "Front event is set " + str(event_front.is_set())
-		print "Back event is set " + str(event_back.is_set())
+		print "Front event is set " + str(is_front_barrier)
+		print "Back event is set " + str(is_back_barrier)
 
 
 		
@@ -362,7 +349,7 @@ if __name__ == "__main__":
 	print "A client connected: IP:", address 
 
 	# create thread
-	t = threading.Thread(target=my_tank_task, args=(EVENT_F, EVENT_B))
+	t = thread.start_newtThread(my_tank_task, ("detect_task", 1))
 
 	t.start()
 
