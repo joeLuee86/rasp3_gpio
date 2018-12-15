@@ -206,7 +206,7 @@ class SuperTank:
 			self.motor_1.brake()
 			self.motor_2.reverse()
 
-	def turn_left(self, fir):
+	def turn_left(self, dir):
 		if dir == 1:
 			self.motor_2.brake()
 			self.motor_1.forward()
@@ -359,37 +359,37 @@ if __name__ == "__main__":
 
 	myTank.brake() 
 
-	myTank.start(100)   # PWM with 100HZ
+	# myTank.start(100)   # PWM with 100HZ
 
-	myTank.accelerate(40)
+	# myTank.accelerate(40)
 
-	myTank.turn_left(1)
-	time.sleep(0.5)
+	# myTank.turn_left(1)
+	# time.sleep(0.5)
 
-	myTank.turn_left(0)
-	time.sleep(0.5)
+	# myTank.turn_left(0)
+	# time.sleep(0.5)
 
-	myTank.turn_right(1)
-	time.sleep(0.5)
+	# myTank.turn_right(1)
+	# time.sleep(0.5)
 
-	myTank.turn_right(0)
-	time.sleep(0.5)
+	# myTank.turn_right(0)
+	# time.sleep(0.5)
 
-	myTank.brake()
+	# myTank.brake()
 
-	# thread.start_new_thread(my_tank_task, ("tank_task", 1))
+	thread.start_new_thread(my_tank_task, ("tank_task", 1))
 
-	# while(1):
-	# 	time.sleep(0.1)
+	while(1):
+		time.sleep(0.1)
 
-	# 	if myTank.barrier_front() < myTank.BARRIER_TOLERANCE:
-	# 		is_front_barrier = 1
-	# 	else:
-	# 		is_front_barrier = 0
+		if myTank.barrier_front() < myTank.BARRIER_TOLERANCE:
+			is_front_barrier = 1
+		else:
+			is_front_barrier = 0
 
-	# 	if myTank.barrier_back() < myTank.BARRIER_TOLERANCE:
-	# 		is_back_barrier = 1
-	# 	else:
-	# 		is_back_barrier = 0
+		if myTank.barrier_back() < myTank.BARRIER_TOLERANCE:
+			is_back_barrier = 1
+		else:
+			is_back_barrier = 0
 
 
