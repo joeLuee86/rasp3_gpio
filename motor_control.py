@@ -266,6 +266,8 @@ PARSE_LOCK = 0
 
 def parse_command(tank, command):
 	print command
+	print "Front event is set " + str(is_front_barrier)
+	print "Back event is set " + str(is_back_barrier)
 	PARSE_LOCK = 1
 	if len(command) < 6:
 		return
@@ -349,7 +351,7 @@ if __name__ == "__main__":
 	print "A client connected: IP:", address 
 
 	# create thread
-	thread.start_newtThread(my_tank_task, ("detect_task", 1))
+	thread.start_new_thread(my_tank_task, ("detect_task", 1))
 
 
 	while True:
