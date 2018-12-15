@@ -314,28 +314,6 @@ def my_tank_task(name, val):
 
 	myTank = SuperTank()
 
-	while(1):
-		time.sleep(0.3)
-
-		if myTank.barrier_front() < myTank.BARRIER_TOLERANCE:
-			is_front_barrier = 1
-		else:
-			is_front_barrier = 0
-
-		if myTank.barrier_back() < myTank.BARRIER_TOLERANCE:
-			is_back_barrier = 1
-		else:
-			is_back_barrier = 0
-
-		print "Front event is set " + str(is_front_barrier)
-		print "Back event is set " + str(is_back_barrier)
-
-
-		
-
-if __name__ == "__main__":
-	myTank = SuperTank()
-
 	myTank.brake() 
 
 	myTank.start(100)   # PWM with 100HZ
@@ -349,10 +327,6 @@ if __name__ == "__main__":
 
 	client, address = mySocket.accept()
 	print "A client connected: IP:", address 
-
-	# create thread
-	thread.start_new_thread(my_tank_task, ("detect_task", 1))
-
 
 	while True:
 		if PARSE_LOCK == 0:
@@ -370,5 +344,30 @@ if __name__ == "__main__":
 			# 		angle:45:strength:90:tolerance:5
 			myList = RECV_BUF.split(":")
 			parse_command(myTank, myList)
+
+
+
+		
+
+if __name__ == "__main__":
+	myTank = SuperTank()
+
+	thread.start_new_thread(my_tank_task, ("tank_task", 1))
+
+	while(1):
+		time.sleep(0.3)
+
+		if myTank.barrier_front() < myTank.BARRIER_TOLERANCE:
+			is_front_barrier = 1
+		else:
+			is_front_barrier = 0
+
+		if myTank.barrier_back() < myTank.BARRIER_TOLERANCE:
+			is_back_barrier = 1
+		else:
+			is_back_barrier = 0
+
+		print "Front event is set " + str(is_front_barrier)
+		print "Back event is set " + str(is_back_barrier)
 
 
