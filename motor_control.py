@@ -45,6 +45,7 @@ import string
 import threading
 import thread
 import socket
+import math
 
 import RPi.GPIO as GPIO 
 
@@ -186,42 +187,48 @@ class SuperTank:
 		self.motor_1.stop()
 		self.motor_2.stop()
 
-	def go_forward(self):
+	def go_forward(self, acc_left, acc_right):
 		self.motor_1.forward()
 		self.motor_2.forward()
+		self.motor_1.speed(acc_left)
+		self.motor_2.speed(acc_right)	
 
 		return 0
 
-	def go_back(self):
+	def go_back(self,, acc_left, acc_right):
 		self.motor_1.reverse()
 		self.motor_2.reverse()
+		self.motor_1.speed(acc_left)
+		self.motor_2.speed(acc_right)	
 
 		return 0
 
-	def turn_right(self, dir):
-		if dir == 1:
-			self.motor_1.brake()
-			self.motor_2.forward()
-		else:
-			self.motor_1.brake()
-			self.motor_2.reverse()
+	def turn_right(self, dir, acc):
+		self.motor_1.brake()
+		self.motor_2.forward()
 
-	def turn_left(self, dir):
-		if dir == 1:
-			self.motor_2.brake()
-			self.motor_1.forward()
-		else:
-			self.motor_2.brake()
-			self.motor_1.reverse()
+		self.motor_1.speed(acc)
+		self.motor_2.speed(acc)	
+
+	def turn_left(self, dir, acc):
+		self.motor_2.brake()
+		self.motor_1.forward()
+
+		self.motor_1.speed(acc)
+		self.motor_2.speed(acc)	
 			
 
-	def rotate_clock(self):
+	def rotate_clock(self, acc):
 		self.motor_1.forward()
 		self.motor_2.reverse()
+		self.motor_1.speed(acc)
+		self.motor_2.speed(acc)	
 
-	def rotate_anti_clock(self):
+	def rotate_anti_clock(self, acc):
 		self.motor_1.reverse()
 		self.motor_2.forward()
+		self.motor_1.speed(acc)
+		self.motor_2.speed(acc)	
 
 	def accelerate(self, val):
 		self.motor_1.speed(val)
@@ -230,6 +237,8 @@ class SuperTank:
 	def brake(self):
 		self.motor_1.brake()
 		self.motor_2.brake()
+		self.motor_1.speed(0)
+		self.motor_2.speed(0)	
 
 	def adjust_barrier_tolerance(self, tolerance):
 		if tolerance > 2:
@@ -274,42 +283,55 @@ def parse_command(tank, command):
 	angle = int(command[1])
 	strength = int(command[3])
 
-	if angle < 120 and angle > 60:
-		# should forward
+	if angle < 100 and angle > 80:
+		# should straight forward
 		if is_front_barrier == 0:
-			tank.go_forward()
-			tank.accelerate(strength)
+			tank.go_forward(strength, strength)
 		else:
 			tank.brake()
 
-	elif angle <= 60:
+	elif angle <= 80 and angle >= 10:
 		# turn forward right
 		print "turn forward right"
-		tank.turn_right(1)
-		tank.accelerate(strength)
+		if is_front_barrier == 0:
+			acc_right = int(abs(math.cos(strength * math.pi / 180) * 100))
+			tank.go_forward(acc_right, strength)
+		else:
+			tank.brake()		
 
-	elif angle >= 300:
+
+	elif angle >= 280 and angle <= 350:
 		# turn back right
 		print "turn back right"
-		tank.turn_right(0)
-		tank.accelerate(strength)
+		if is_back_barrier == 0:
+			acc_right = int(abs(math.cos(strength * math.pi / 180) * 100))
+			tank.go_back(acc_right, strength)
+		else:
+			tank.brake()
 
-	elif angle >= 120 and angle <= 180:
+	elif angle < 10 or angle > 350:
+		# turn right
+		tank.turn_right(strength)
+
+	elif angle >= 100 and angle <= 170:
 		# turn forward left
 		print "turn forward left"
-		tank.turn_left(0)
-		tank.accelerate(strength)
+		acc_left = int(abs(math.cos(strength * math.pi / 180) * 100))
+		tank.go_forward(strength, acc_left)
 
-	elif angle > 180 and angle <= 240:
+	elif angle > 170 and angle < 190:
+		# turn left
+		tank.turn_left(strength)
+
+	elif angle >= 190 and angle <= 260:
 		print "turn back left"
-		tank.turn_left(1)
-		tank.accelerate(strength)
+		acc_left = int(abs(math.cos(strength * math.pi / 180) * 100))
+		tank.go_back(strength, acc_left)
 
-	elif angle > 240 and angle < 300:
+	elif angle > 260 and angle < 280:
 		# go left
 		if is_back_barrier == 0:
-			tank.go_back()
-			tank.accelerate(strength)
+			tank.go_back(strength, strength)
 		else:
 			tank.brake()
 
