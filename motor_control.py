@@ -266,8 +266,6 @@ PARSE_LOCK = 0
 
 def parse_command(tank, command):
 	print command
-	print "Front event is set " + str(is_front_barrier)
-	print "Back event is set " + str(is_back_barrier)
 	PARSE_LOCK = 1
 	if len(command) < 6:
 		return
@@ -355,7 +353,7 @@ if __name__ == "__main__":
 	thread.start_new_thread(my_tank_task, ("tank_task", 1))
 
 	while(1):
-		time.sleep(0.3)
+		time.sleep(0.1)
 
 		if myTank.barrier_front() < myTank.BARRIER_TOLERANCE:
 			is_front_barrier = 1
@@ -366,8 +364,5 @@ if __name__ == "__main__":
 			is_back_barrier = 1
 		else:
 			is_back_barrier = 0
-
-		print "Front event is set " + str(is_front_barrier)
-		print "Back event is set " + str(is_back_barrier)
 
 
