@@ -289,20 +289,20 @@ def parse_command(tank, command):
 		tank.accelerate(strength)
 
 	elif angle >= 300:
-		# turn back left
+		# turn back right
 		print "turn back right"
 		tank.turn_right(0)
 		tank.accelerate(strength)
 
 	elif angle >= 120 and angle <= 180:
-		# turn right
+		# turn forward left
 		print "turn forward left"
-		tank.turn_left(1)
+		tank.turn_left(0)
 		tank.accelerate(strength)
 
 	elif angle > 180 and angle <= 240:
 		print "turn back left"
-		tank.turn_left(0)
+		tank.turn_left(1)
 		tank.accelerate(strength)
 
 	elif angle > 240 and angle < 300:
@@ -357,19 +357,35 @@ def my_tank_task(name, val):
 if __name__ == "__main__":
 	myTank = SuperTank()
 
-	thread.start_new_thread(my_tank_task, ("tank_task", 1))
+	myTank.brake() 
 
-	while(1):
-		time.sleep(0.1)
+	myTank.start(100)   # PWM with 100HZ
 
-		if myTank.barrier_front() < myTank.BARRIER_TOLERANCE:
-			is_front_barrier = 1
-		else:
-			is_front_barrier = 0
+	myTank.turn_left(1)
+	time.sleep(0.5)
 
-		if myTank.barrier_back() < myTank.BARRIER_TOLERANCE:
-			is_back_barrier = 1
-		else:
-			is_back_barrier = 0
+	myTank.turn_left(0)
+	time.sleep(0.5)
+
+	myTank.turn_right(1)
+	time.sleep(0.5)
+
+	myTank.turn_right(0)
+	time.sleep(0.5)
+
+	# thread.start_new_thread(my_tank_task, ("tank_task", 1))
+
+	# while(1):
+	# 	time.sleep(0.1)
+
+	# 	if myTank.barrier_front() < myTank.BARRIER_TOLERANCE:
+	# 		is_front_barrier = 1
+	# 	else:
+	# 		is_front_barrier = 0
+
+	# 	if myTank.barrier_back() < myTank.BARRIER_TOLERANCE:
+	# 		is_back_barrier = 1
+	# 	else:
+	# 		is_back_barrier = 0
 
 
