@@ -275,7 +275,7 @@ PARSE_LOCK = 0
 
 
 def parse_command(tank, command):
-	print command
+	# print command
 	PARSE_LOCK = 1
 	if len(command) < 6:
 		return
@@ -292,7 +292,7 @@ def parse_command(tank, command):
 
 	elif angle <= 80 and angle >= 10:
 		# turn forward right
-		print "turn forward right"
+		# print "turn forward right"
 		if is_front_barrier == 0:
 			acc_right = int(abs(math.sin(angle * math.pi / 180) * strength))
 			tank.go_forward(strength, acc_right)
@@ -302,7 +302,7 @@ def parse_command(tank, command):
 
 	elif angle >= 280 and angle <= 350:
 		# turn back right
-		print "turn back right"
+		# print "turn back right"
 		if is_back_barrier == 0:
 			acc_right = int(abs(math.sin(angle * math.pi / 180) * strength))
 			tank.go_back(strength, acc_right)
@@ -315,7 +315,7 @@ def parse_command(tank, command):
 
 	elif angle >= 100 and angle <= 170:
 		# turn forward left
-		print "turn forward left"
+		# print "turn forward left"
 		acc_left = int(abs(math.sin(angle * math.pi / 180) * strength))
 		tank.go_forward(acc_left, strength)
 
@@ -324,7 +324,7 @@ def parse_command(tank, command):
 		tank.turn_left(strength)
 
 	elif angle >= 190 and angle <= 260:
-		print "turn back left"
+		# print "turn back left"
 		acc_left = int(abs(math.sin(angle * math.pi / 180) * strength))
 		tank.go_back(acc_left, strength)
 
