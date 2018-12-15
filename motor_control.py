@@ -294,8 +294,8 @@ def parse_command(tank, command):
 		# turn forward right
 		print "turn forward right"
 		if is_front_barrier == 0:
-			acc_right = int(abs(math.cos(angle * math.pi / 180) * strength))
-			tank.go_forward(acc_right, strength)
+			acc_right = int(abs(math.sin(angle * math.pi / 180) * strength))
+			tank.go_forward(strength, acc_right)
 		else:
 			tank.brake()		
 
@@ -304,8 +304,8 @@ def parse_command(tank, command):
 		# turn back right
 		print "turn back right"
 		if is_back_barrier == 0:
-			acc_right = int(abs(math.cos(angle * math.pi / 180) * strength))
-			tank.go_back(acc_right, strength)
+			acc_right = int(abs(math.sin(angle * math.pi / 180) * strength))
+			tank.go_back(strength, acc_right)
 		else:
 			tank.brake()
 
@@ -316,7 +316,7 @@ def parse_command(tank, command):
 	elif angle >= 100 and angle <= 170:
 		# turn forward left
 		print "turn forward left"
-		acc_left = int(abs(math.cos(angle * math.pi / 180) * strength))
+		acc_left = int(abs(math.sin(angle * math.pi / 180) * strength))
 		tank.go_forward(acc_left, strength)
 
 	elif angle > 170 and angle < 190:
@@ -325,7 +325,7 @@ def parse_command(tank, command):
 
 	elif angle >= 190 and angle <= 260:
 		print "turn back left"
-		acc_left = int(abs(math.cos(angle * math.pi / 180) * strength))
+		acc_left = int(abs(math.sin(angle * math.pi / 180) * strength))
 		tank.go_back(acc_left, strength)
 
 	elif angle > 260 and angle < 280:
@@ -336,6 +336,8 @@ def parse_command(tank, command):
 			tank.brake()
 
 	PARSE_LOCK = 0
+
+
 
 def my_tank_task(name, val):
 
@@ -403,19 +405,19 @@ if __name__ == "__main__":
 
 	myTank.brake()
 
-	# thread.start_new_thread(my_tank_task, ("tank_task", 1))
+	thread.start_new_thread(my_tank_task, ("tank_task", 1))
 
-	# while(1):
-	# 	time.sleep(0.1)
+	while(1):
+		time.sleep(0.1)
 
-	# 	if myTank.barrier_front() < myTank.BARRIER_TOLERANCE:
-	# 		is_front_barrier = 1
-	# 	else:
-	# 		is_front_barrier = 0
+		if myTank.barrier_front() < myTank.BARRIER_TOLERANCE:
+			is_front_barrier = 1
+		else:
+			is_front_barrier = 0
 
-	# 	if myTank.barrier_back() < myTank.BARRIER_TOLERANCE:
-	# 		is_back_barrier = 1
-	# 	else:
-	# 		is_back_barrier = 0
+		if myTank.barrier_back() < myTank.BARRIER_TOLERANCE:
+			is_back_barrier = 1
+		else:
+			is_back_barrier = 0
 
 
