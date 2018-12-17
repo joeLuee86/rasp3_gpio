@@ -283,14 +283,14 @@ def parse_command(tank, command):
 	angle = int(command[1])
 	strength = int(command[3])
 
-	if angle < 100 and angle > 80:
-		# should straight forward
-		if is_front_barrier == 0:
-			tank.go_forward(strength, strength)
-		else:
-			tank.brake()
+	# if angle < 100 and angle > 80:
+	# 	# should straight forward
+	# 	if is_front_barrier == 0:
+	# 		tank.go_forward(strength, strength)
+	# 	else:
+	# 		tank.brake()
 
-	elif angle <= 80 and angle >= 10:
+	if angle <= 90 and angle >= 0:
 		# turn forward right
 		# print "turn forward right"
 		if is_front_barrier == 0:
@@ -299,8 +299,16 @@ def parse_command(tank, command):
 		else:
 			tank.brake()		
 
+	elif angle > 90 and angle <= 180:
+		# turn forward left
+		# print "turn forward left"
+		if is_front_barrier == 0:
+			acc_left = int(abs(math.sin(angle * math.pi / 180) * strength))
+			tank.go_forward(acc_left, strength)
+		else:
+			tank.brake()
 
-	elif angle >= 280 and angle <= 350:
+	elif angle >= 270 and angle <= 350:
 		# turn back right
 		# print "turn back right"
 		if is_back_barrier == 0:
@@ -309,31 +317,28 @@ def parse_command(tank, command):
 		else:
 			tank.brake()
 
-	elif angle < 10 or angle > 350:
-		# turn right
-		tank.turn_right(strength)
+	# elif angle < 10 or angle > 350:
+	# 	# turn right
+	# 	tank.turn_right(strength)
 
-	elif angle >= 100 and angle <= 170:
-		# turn forward left
-		# print "turn forward left"
-		acc_left = int(abs(math.sin(angle * math.pi / 180) * strength))
-		tank.go_forward(acc_left, strength)
+	# elif angle > 170 and angle < 190:
+	# 	# turn left
+	# 	tank.turn_left(strength)
 
-	elif angle > 170 and angle < 190:
-		# turn left
-		tank.turn_left(strength)
-
-	elif angle >= 190 and angle <= 260:
+	elif angle >= 190 and angle < 270:
 		# print "turn back left"
-		acc_left = int(abs(math.sin(angle * math.pi / 180) * strength))
-		tank.go_back(acc_left, strength)
-
-	elif angle > 260 and angle < 280:
-		# go left
 		if is_back_barrier == 0:
-			tank.go_back(strength, strength)
+			acc_left = int(abs(math.sin(angle * math.pi / 180) * strength))
+			tank.go_back(acc_left, strength)
 		else:
 			tank.brake()
+
+	# elif angle > 260 and angle < 280:
+	# 	# go left
+	# 	if is_back_barrier == 0:
+	# 		tank.go_back(strength, strength)
+	# 	else:
+	# 		tank.brake()
 
 	PARSE_LOCK = 0
 
