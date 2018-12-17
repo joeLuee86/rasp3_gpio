@@ -390,25 +390,6 @@ if __name__ == "__main__":
 
 	myTank.start(100)
 
-	myTank.go_forward(50, 40)
-	time.sleep(1)
-
-	myTank.brake()
-
-	myTank.go_forward(40, 50)
-	time.sleep(1)
-
-	myTank.brake()
-
-	myTank.go_back(50, 40)
-	time.sleep(1)
-
-	myTank.brake()
-
-	myTank.go_back(40, 50)
-	time.sleep(1)
-
-	myTank.brake()
 
 	thread.start_new_thread(my_tank_task, ("tank_task", 1))
 
