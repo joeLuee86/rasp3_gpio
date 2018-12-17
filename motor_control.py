@@ -110,6 +110,8 @@ class MotorControl:
 
 
 	def speed(self, val):
+		if (val > 100 or val < 0):
+			return
 		self.motorDutyCycle.ChangeDutyCycle(val)		# range 0 - 100
 	
 
