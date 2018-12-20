@@ -359,7 +359,7 @@ def my_tank_task(name, val):
 		mySocket = socket.socket()
 		host = socket.gethostname()
 		port = 1234
-		mySocket.bind(("192.168.1.106", port))
+		mySocket.bind(("192.168.43.93", port))
 	except Exception:
 		print "socket binding error"
 		mySocket.close()
