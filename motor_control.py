@@ -37,6 +37,7 @@
 
 # import the necessary modules
 import re,sys
+import os
 from threading import Timer
 import time
 import copy
@@ -354,10 +355,15 @@ def my_tank_task(name, val):
 
 	myTank.start(100)   # PWM with 100HZ
 
-	mySocket = socket.socket()
-	host = socket.gethostname()
-	port = 1234
-	mySocket.bind(("192.168.1.106", port))
+	try:
+		mySocket = socket.socket()
+		host = socket.gethostname()
+		port = 1234
+		mySocket.bind(("192.168.1.106", port))
+	except Exception:
+		print "socket binding error"
+		mySocket.close()
+		return -1
 
 	mySocket.listen(5)
 
@@ -381,6 +387,8 @@ def my_tank_task(name, val):
 			myList = RECV_BUF.split(":")
 			parse_command(myTank, myList)
 
+	mySocket.close()
+	return 0
 
 
 		
@@ -392,20 +400,25 @@ if __name__ == "__main__":
 
 	myTank.start(100)
 
+	try :
+		thread.start_new_thread(my_tank_task, ("tank_task", 1))
 
-	thread.start_new_thread(my_tank_task, ("tank_task", 1))
+		while(1):
+			time.sleep(0.1)
 
-	while(1):
-		time.sleep(0.1)
+			if myTank.barrier_front() < myTank.BARRIER_TOLERANCE:
+				is_front_barrier = 1
+			else:
+				is_front_barrier = 0
 
-		if myTank.barrier_front() < myTank.BARRIER_TOLERANCE:
-			is_front_barrier = 1
-		else:
-			is_front_barrier = 0
+			if myTank.barrier_back() < myTank.BARRIER_TOLERANCE:
+				is_back_barrier = 1
+			else:
+				is_back_barrier = 0
 
-		if myTank.barrier_back() < myTank.BARRIER_TOLERANCE:
-			is_back_barrier = 1
-		else:
-			is_back_barrier = 0
+	except Exception:
+		print "socket task break"
+		os.system("sudo service my_tank restart")
 
+	os.system("sudo service my_tank restart")	
 
