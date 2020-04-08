@@ -390,8 +390,56 @@ def my_tank_task(name, val):
 	mySocket.close()
 	return 0
 
+def is_front_barrier(tank):
+	if tank.barrier_front() < tank.BARRIER_TOLERANCE:
+		return 1
+	else:
+		return 0
 
-		
+def is_back_barrier(tank):
+	if tank.barrier_back() < tank.BARRIER_TOLERANCE:
+		return 1
+	else:
+		return 0
+
+def free_style(my_tank):
+
+	for i in range(0, 100):
+		print "we are in for loop %d" %(i)
+		time.sleep(0.3)
+		if is_front_barrier(my_tank):
+			print "front barrier 1"
+			my_tank.go_back(40, 40)
+			time.sleep(0.3)
+			my_tank.go_forward(0, 40)
+			time.sleep(0.3)     # turn right
+			my_tank.brake()
+			if is_front_barrier(my_tank):
+				print "front barrier 2"
+				my_tank.go_forward(0, 40)
+				time.sleep(0.3)
+				if is_front_barrier(my_tank):
+					print "front barrier 3"
+					my_tank.go_back(40, 40)
+					time.sleep(0.2)
+					my_tank.go_forward(40, 0)
+					time.sleep(0.6)
+					my_tank.brake()
+		elif is_back_barrier(my_tank):
+			print "back barrier 1"
+			my_tank.go_forward(40, 40)
+			time.sleep(0.3)
+			my_tank.brake()
+
+		else:
+			my_tank.go_forward(40, 40)
+
+
+
+
+
+
+
 
 if __name__ == "__main__":
 	myTank = SuperTank()
@@ -399,6 +447,10 @@ if __name__ == "__main__":
 	myTank.brake() 
 
 	myTank.start(100)
+
+	free_style(myTank)
+
+	sys.exit(0)
 
 	try :
 		thread.start_new_thread(my_tank_task, ("tank_task", 1))
