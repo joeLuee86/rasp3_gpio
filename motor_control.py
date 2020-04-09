@@ -402,7 +402,9 @@ def is_back_barrier(tank):
 	else:
 		return 0
 
-def free_style(my_tank):
+def free_walk():
+
+	my_tank = SuperTank()
 
 	for i in range(0, 100):
 		print "we are in for loop %d" %(i)
@@ -448,7 +450,7 @@ if __name__ == "__main__":
 
 	myTank.start(100)
 
-	free_style(myTank)
+	free_style()
 
 	sys.exit(0)
 
