@@ -450,7 +450,7 @@ if __name__ == "__main__":
 
 	myTank.start(100)
 
-	free_style()
+	free_walk()
 
 	sys.exit(0)
 
