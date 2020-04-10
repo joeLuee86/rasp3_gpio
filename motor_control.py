@@ -406,6 +406,10 @@ def free_walk():
 
 	my_tank = SuperTank()
 
+	my_tank.brake() 
+
+	my_tank.start(100)
+
 	for i in range(0, 100):
 		print "we are in for loop %d" %(i)
 		time.sleep(0.3)
@@ -450,9 +454,9 @@ if __name__ == "__main__":
 
 	myTank.start(100)
 
-	free_walk()
+	#free_walk()
 
-	sys.exit(0)
+	#sys.exit(0)
 
 	try :
 		thread.start_new_thread(my_tank_task, ("tank_task", 1))
