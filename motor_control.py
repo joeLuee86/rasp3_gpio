@@ -379,6 +379,8 @@ def my_tank_task(name, val):
 
 			RECV_BUF = c.recv(1024)
 
+			print RECV_BUF
+
 			# report format: 
 			# Command:parameter
 			# E.X
