@@ -129,10 +129,12 @@ class MotorControl:
 
 class SuperTank:
 	motor_1 = MotorControl()
-	motor_1.pin_init(7, 8, 1)
-
+	#motor_1.pin_init(7, 8, 1)
+	motor_1.pin_init(9, 10, 0)
+	
 	motor_2 = MotorControl()
-	motor_2.pin_init(9, 10, 0)
+	#motor_2.pin_init(9, 10, 0)
+	motor_2.pin_init(7, 8, 1)
 
 
 	# init HC-SR04 ultrsonic distance detector
@@ -301,6 +303,7 @@ def parse_command(tank, command):
 		print "turn forward right"
 		if is_front_barrier == 0:
 			acc_right = int(abs(math.sin(angle * math.pi / 180) * strength))
+			print "strength = ", strength, " acc_right = ", acc_right
 			tank.go_forward(strength, acc_right)
 		else:
 			tank.brake()		
@@ -310,6 +313,7 @@ def parse_command(tank, command):
 		print "turn forward left"
 		if is_front_barrier == 0:
 			acc_left = int(abs(math.sin(angle * math.pi / 180) * strength))
+			print "acc_left = ", acc_left, " strength = ", strength
 			tank.go_forward(acc_left, strength)
 		else:
 			tank.brake()
@@ -319,6 +323,7 @@ def parse_command(tank, command):
 		print "turn back right"
 		if is_back_barrier == 0:
 			acc_right = int(abs(math.sin(angle * math.pi / 180) * strength))
+			print "strength = ", strength, " acc_right = ", acc_right
 			tank.go_back(strength, acc_right)
 		else:
 			tank.brake()
@@ -335,6 +340,7 @@ def parse_command(tank, command):
 		print "turn back left"
 		if is_back_barrier == 0:
 			acc_left = int(abs(math.sin(angle * math.pi / 180) * strength))
+			print "acc_left = ", acc_left, " strength = ", strength
 			tank.go_back(acc_left, strength)
 		else:
 			tank.brake()
@@ -501,15 +507,15 @@ if __name__ == "__main__":
 			is_front_barrier = 0
 			is_back_barrier  = 0
 	
-	#		if myTank.barrier_front() < myTank.BARRIER_TOLERANCE:
-	#			is_front_barrier = 1
-	#		else:
-	#			is_front_barrier = 0
+		#	if myTank.barrier_front() < myTank.BARRIER_TOLERANCE:
+		#		is_front_barrier = 1
+		#	else:
+		#		is_front_barrier = 0
 
-	#		if myTank.barrier_back() < myTank.BARRIER_TOLERANCE:
-	#			is_back_barrier = 1
-	#		else:
-	#			is_back_barrier = 0
+		#	if myTank.barrier_back() < myTank.BARRIER_TOLERANCE:
+		#		is_back_barrier = 1
+		#	else:
+		#		is_back_barrier = 0
 
 	except Exception:
 		print "socket task break"
