@@ -283,6 +283,9 @@ def parse_command(tank, command):
 	if len(command) < 6:
 		return
 
+#	tank.go_forward(40, 40)
+#	time.sleep(0.1)
+	tank.brake()
 	angle = int(command[1])
 	strength = int(command[3])
 
@@ -295,7 +298,7 @@ def parse_command(tank, command):
 
 	if angle <= 90 and angle >= 0:
 		# turn forward right
-		# print "turn forward right"
+		print "turn forward right"
 		if is_front_barrier == 0:
 			acc_right = int(abs(math.sin(angle * math.pi / 180) * strength))
 			tank.go_forward(strength, acc_right)
@@ -304,7 +307,7 @@ def parse_command(tank, command):
 
 	elif angle > 90 and angle <= 180:
 		# turn forward left
-		# print "turn forward left"
+		print "turn forward left"
 		if is_front_barrier == 0:
 			acc_left = int(abs(math.sin(angle * math.pi / 180) * strength))
 			tank.go_forward(acc_left, strength)
@@ -313,7 +316,7 @@ def parse_command(tank, command):
 
 	elif angle >= 270 and angle <= 350:
 		# turn back right
-		# print "turn back right"
+		print "turn back right"
 		if is_back_barrier == 0:
 			acc_right = int(abs(math.sin(angle * math.pi / 180) * strength))
 			tank.go_back(strength, acc_right)
@@ -329,7 +332,7 @@ def parse_command(tank, command):
 	# 	tank.turn_left(strength)
 
 	elif angle >= 190 and angle < 270:
-		# print "turn back left"
+		print "turn back left"
 		if is_back_barrier == 0:
 			acc_left = int(abs(math.sin(angle * math.pi / 180) * strength))
 			tank.go_back(acc_left, strength)
@@ -355,6 +358,12 @@ def my_tank_task(name, val):
 
 	myTank.start(100)   # PWM with 100HZ
 
+#	myTank.go_forward(35, 35)
+
+#	time.sleep(1)
+
+#	myTank.brake()
+
 	try:
 		mySocket = socket.socket()
 		host = socket.gethostname()
@@ -370,24 +379,42 @@ def my_tank_task(name, val):
 	client, address = mySocket.accept()
 	print "A client connected: IP:", address 
 
+	recv = " "
+	RECV_BUF = " "
 	while True:
 		if PARSE_LOCK == 0:
 
 			c, addr = mySocket.accept()     # ????????
+#			print "connected client: ", addr
+#			RECV_BUF = " "
 
-			RECV_BUF = " "
+			temp_buf = c.recv(1024)
+			if len(temp_buf) < 30:
+				RECV_BUF += temp_buf
+				temp_buf = c.recv(1024)
+				RECV_BUF += temp_buf
+				print RECV_BUF
+				myList = RECV_BUF.split(":")
+				parse_command(myTank, myList)
+				RECV_BUF = " "
 
-			RECV_BUF = c.recv(1024)
-
-			print RECV_BUF
+#			buf = client.recv(1024)
+#			if not len(buf):
+#				recv += buf
+#				break
+#			else:
+#				recv += buf
+#				print recv
+#				recv = " "
+#			print buf
 
 			# report format: 
 			# Command:parameter
 			# E.X
 			# 		angle:90:strength:50:tolerance:5
 			# 		angle:45:strength:90:tolerance:5
-			myList = RECV_BUF.split(":")
-			parse_command(myTank, myList)
+#			myList = RECV_BUF.split(":")
+#			parse_command(myTank, myList)
 
 	mySocket.close()
 	return 0
@@ -460,21 +487,29 @@ if __name__ == "__main__":
 
 	#sys.exit(0)
 
+#	myTank.go_forward(50 , 50)
+
+#	time.sleep(1)
+
+#	myTank.brake()
+
 	try :
 		thread.start_new_thread(my_tank_task, ("tank_task", 1))
 
 		while(1):
 			time.sleep(0.1)
+			is_front_barrier = 0
+			is_back_barrier  = 0
+	
+	#		if myTank.barrier_front() < myTank.BARRIER_TOLERANCE:
+	#			is_front_barrier = 1
+	#		else:
+	#			is_front_barrier = 0
 
-			if myTank.barrier_front() < myTank.BARRIER_TOLERANCE:
-				is_front_barrier = 1
-			else:
-				is_front_barrier = 0
-
-			if myTank.barrier_back() < myTank.BARRIER_TOLERANCE:
-				is_back_barrier = 1
-			else:
-				is_back_barrier = 0
+	#		if myTank.barrier_back() < myTank.BARRIER_TOLERANCE:
+	#			is_back_barrier = 1
+	#		else:
+	#			is_back_barrier = 0
 
 	except Exception:
 		print "socket task break"
