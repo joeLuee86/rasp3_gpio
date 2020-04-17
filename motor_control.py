@@ -300,30 +300,30 @@ def parse_command(tank, command):
 
 	if angle <= 90 and angle >= 20:
 		# turn forward right
-		print "turn forward right"
+		# print "turn forward right"
 		if is_front_barrier == 0:
 			acc_right = int(abs(math.sin(angle * math.pi / 180) * strength))
-			print "strength = ", strength, " acc_right = ", acc_right
+			# print "strength = ", strength, " acc_right = ", acc_right
 			tank.go_forward(strength, acc_right)
 		else:
 			tank.brake()		
 
 	elif angle > 90 and angle <= 160:
 		# turn forward left
-		print "turn forward left"
+		# print "turn forward left"
 		if is_front_barrier == 0:
 			acc_left = int(abs(math.sin(angle * math.pi / 180) * strength))
-			print "acc_left = ", acc_left, " strength = ", strength
+			# print "acc_left = ", acc_left, " strength = ", strength
 			tank.go_forward(acc_left, strength)
 		else:
 			tank.brake()
 
 	elif angle >= 270 and angle <= 340:
 		# turn back right
-		print "turn back right"
+		# print "turn back right"
 		if is_back_barrier == 0:
 			acc_right = int(abs(math.sin(angle * math.pi / 180) * strength))
-			print "strength = ", strength, " acc_right = ", acc_right
+			# print "strength = ", strength, " acc_right = ", acc_right
 			tank.go_back(strength, acc_right)
 		else:
 			tank.brake()
@@ -337,10 +337,10 @@ def parse_command(tank, command):
 	 	tank.turn_left(strength)
 
 	elif angle >= 200 and angle < 270:
-		print "turn back left"
+		# print "turn back left"
 		if is_back_barrier == 0:
 			acc_left = int(abs(math.sin(angle * math.pi / 180) * strength))
-			print "acc_left = ", acc_left, " strength = ", strength
+			# print "acc_left = ", acc_left, " strength = ", strength
 			tank.go_back(acc_left, strength)
 		else:
 			tank.brake()
@@ -399,7 +399,7 @@ def my_tank_task(name, val):
 				RECV_BUF += temp_buf
 				temp_buf = c.recv(1024)
 				RECV_BUF += temp_buf
-				print RECV_BUF
+				# print RECV_BUF
 				myList = RECV_BUF.split(":")
 				parse_command(myTank, myList)
 				RECV_BUF = " "
@@ -517,7 +517,7 @@ if __name__ == "__main__":
 			else:
 				is_back_barrier = 0
 
-			print "is_front_barrier = ", is_front_barrier, " is_back_barrier = ", is_back_barrier
+			# print "is_front_barrier = ", is_front_barrier, " is_back_barrier = ", is_back_barrier
 
 	except Exception:
 		print "socket task break"
