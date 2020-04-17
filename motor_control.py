@@ -298,7 +298,7 @@ def parse_command(tank, command):
 	# 	else:
 	# 		tank.brake()
 
-	if angle <= 90 and angle >= 0:
+	if angle <= 90 and angle >= 20:
 		# turn forward right
 		print "turn forward right"
 		if is_front_barrier == 0:
@@ -308,7 +308,7 @@ def parse_command(tank, command):
 		else:
 			tank.brake()		
 
-	elif angle > 90 and angle <= 180:
+	elif angle > 90 and angle <= 160:
 		# turn forward left
 		print "turn forward left"
 		if is_front_barrier == 0:
@@ -318,7 +318,7 @@ def parse_command(tank, command):
 		else:
 			tank.brake()
 
-	elif angle >= 270 and angle <= 350:
+	elif angle >= 270 and angle <= 340:
 		# turn back right
 		print "turn back right"
 		if is_back_barrier == 0:
@@ -328,15 +328,15 @@ def parse_command(tank, command):
 		else:
 			tank.brake()
 
-	# elif angle < 10 or angle > 350:
-	# 	# turn right
-	# 	tank.turn_right(strength)
+	elif angle < 20 or angle > 340:
+	 	# turn right
+	 	tank.turn_right(strength)
 
-	# elif angle > 170 and angle < 190:
-	# 	# turn left
-	# 	tank.turn_left(strength)
+	elif angle > 160 and angle < 200:
+	 	# turn left
+	 	tank.turn_left(strength)
 
-	elif angle >= 190 and angle < 270:
+	elif angle >= 200 and angle < 270:
 		print "turn back left"
 		if is_back_barrier == 0:
 			acc_left = int(abs(math.sin(angle * math.pi / 180) * strength))
@@ -500,22 +500,24 @@ if __name__ == "__main__":
 #	myTank.brake()
 
 	try :
-		thread.start_new_thread(my_tank_task, ("tank_task", 1))
+	#	thread.start_new_thread(my_tank_task, ("tank_task", 1))
 
 		while(1):
 			time.sleep(0.1)
 			is_front_barrier = 0
 			is_back_barrier  = 0
 	
-		#	if myTank.barrier_front() < myTank.BARRIER_TOLERANCE:
-		#		is_front_barrier = 1
-		#	else:
-		#		is_front_barrier = 0
+	#		if myTank.barrier_front() < myTank.BARRIER_TOLERANCE:
+	#			is_front_barrier = 1
+	#		else:
+	#			is_front_barrier = 0
 
-		#	if myTank.barrier_back() < myTank.BARRIER_TOLERANCE:
-		#		is_back_barrier = 1
-		#	else:
-		#		is_back_barrier = 0
+	#		if myTank.barrier_back() < myTank.BARRIER_TOLERANCE:
+	#			is_back_barrier = 1
+	#		else:
+	#			is_back_barrier = 0
+
+	#		print "is_front_barrier = ", is_front_barrier, " is_back_barrier = ", is_back_barrier
 
 	except Exception:
 		print "socket task break"
