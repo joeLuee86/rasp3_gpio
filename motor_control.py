@@ -209,15 +209,15 @@ class SuperTank:
 		return 0
 
 	def turn_right(self, acc):
-		self.motor_1.brake()
-		self.motor_2.forward()
+		self.motor_2.brake()
+		self.motor_1.forward()
 
 		self.motor_1.speed(acc)
 		self.motor_2.speed(acc)	
 
 	def turn_left(self, acc):
-		self.motor_2.brake()
-		self.motor_1.forward()
+		self.motor_1.brake()
+		self.motor_2.forward()
 
 		self.motor_1.speed(acc)
 		self.motor_2.speed(acc)	
@@ -500,24 +500,24 @@ if __name__ == "__main__":
 #	myTank.brake()
 
 	try :
-	#	thread.start_new_thread(my_tank_task, ("tank_task", 1))
+		thread.start_new_thread(my_tank_task, ("tank_task", 1))
 
 		while(1):
-			time.sleep(0.1)
-			is_front_barrier = 0
-			is_back_barrier  = 0
+			time.sleep(0.02)
+	#		is_front_barrier = 0
+	#		is_back_barrier  = 0
 	
-	#		if myTank.barrier_front() < myTank.BARRIER_TOLERANCE:
-	#			is_front_barrier = 1
-	#		else:
-	#			is_front_barrier = 0
+			if myTank.barrier_front() < myTank.BARRIER_TOLERANCE:
+				is_front_barrier = 1
+			else:
+				is_front_barrier = 0
 
-	#		if myTank.barrier_back() < myTank.BARRIER_TOLERANCE:
-	#			is_back_barrier = 1
-	#		else:
-	#			is_back_barrier = 0
+			if myTank.barrier_back() < myTank.BARRIER_TOLERANCE:
+				is_back_barrier = 1
+			else:
+				is_back_barrier = 0
 
-	#		print "is_front_barrier = ", is_front_barrier, " is_back_barrier = ", is_back_barrier
+			print "is_front_barrier = ", is_front_barrier, " is_back_barrier = ", is_back_barrier
 
 	except Exception:
 		print "socket task break"
