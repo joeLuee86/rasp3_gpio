@@ -214,8 +214,35 @@ class MyGpio:
 			if star_str[i] == '*':
 				GPIO.output(self.BCM_PINS[i], GPIO.HIGH)
 
+
+def barrier_front(self):
+
+		GPIO.setup(15, GPIO.OUT)	# Front Trig 
+		GPIO.setup(14, GPIO.IN)		# Front Echo
+
+		GPIO.output(self.FRONT_TRIG, GPIO.LOW)
+		time.sleep(0.05)
+		# trig pulse
+		GPIO.output(self.FRONT_TRIG, GPIO.HIGH)
+		time.sleep(0.00001)
+		GPIO.output(self.FRONT_TRIG, GPIO.LOW)
+
+		while GPIO.input(self.FRONT_ECHO) == 0 :
+			start = time.time()
+
+		while GPIO.input(self.FRONT_ECHO) == 1 :
+			stop = time.time()
+
+		return int((stop - start) * 340 * 100 / 2)   # distance with cm unit
+
+
 # start LED test
 if __name__ == "__main__":
+
+	while (1):
+		time.sleep(0.1)
+		print "barrier = " + barrier_front() + " cm"
+
 
 	# create object
 	mygpio = MyGpio()
